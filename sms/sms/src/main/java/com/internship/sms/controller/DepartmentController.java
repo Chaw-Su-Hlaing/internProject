@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.internship.demo.common.Response;
+import com.internship.sms.entity.Department;
 import com.internship.sms.service.DepartmentService;
 
 /**
@@ -27,6 +28,11 @@ public class DepartmentController {
 	@GetMapping(value="getById")
 	public Response<Department> getById(@RequestParam Long id){
 	Response<Department> response= new Response<Department>();
+	try {
+		
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
 	}
 	
 
