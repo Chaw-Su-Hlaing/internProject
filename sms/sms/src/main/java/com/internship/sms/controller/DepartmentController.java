@@ -30,7 +30,6 @@ public class DepartmentController {
 	public Response<Department> getById(@RequestParam Long id) {
 		Response<Department> response = new Response<Department>();
 		try {
-
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
