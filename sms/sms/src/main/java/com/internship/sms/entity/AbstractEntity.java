@@ -7,7 +7,7 @@ import java.util.Date;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.internship.demo.common.ActiveStatus;
+import com.internship.sms.common.ActiveStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
