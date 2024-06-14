@@ -3,9 +3,53 @@
  */
 package com.internship.sms.entity;
 
+import java.io.Serializable;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+
 /**
  * Thu Soe San
  */
-public class Staff {
+public class Staff extends AbstractEntity implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3194557301464095956L;
+	/**
+	 * 
+	 */
+	
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	
+	@Column(name="name",length=50)
+	private String staffName;
+	
+	@Column(name="phoneNo",length=50)
+	private String staffPhoneNo;
+	
+	@Column(name="address",length=50)
+	private String staffAddress;
+	
+	@Column(name="email",length=50)
+	private String staffEmail;
+	
+	@Column(name="gender",length=20)
+	private String staffGender;
+	
+	@Column(name="nrc_no")
+	private String staffNrcNo;
+	
+	@Column(name="position",length=80)
+	private String staffPosition;
+	
+	@Column(name="profile_picture")
+	private String staffProfilePicture;
+	
+	
+	
+	
 
 }
