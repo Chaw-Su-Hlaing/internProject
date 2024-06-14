@@ -1,17 +1,24 @@
-/**
- * 
- */
+
 package com.internship.sms.entity;
 
 import java.io.Serializable;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Thu Soe San
  */
+@Getter
+@Setter
+@Entity
+@Table(name="Staff")
+
 public class Staff extends AbstractEntity implements Serializable {
 
 	/**
@@ -22,7 +29,6 @@ public class Staff extends AbstractEntity implements Serializable {
 	 * 
 	 */
 	
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	
 	@Column(name="name",length=50)
 	private String staffName;

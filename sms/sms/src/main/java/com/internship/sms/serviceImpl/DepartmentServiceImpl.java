@@ -22,7 +22,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Autowired
 	DepartmentRepository departmentRepository;
 
-	@Override
 	public List<Department> getAllDepartment() {
 		// TODO Auto-generated method stub
 		return departmentRepository.findAll();
@@ -59,6 +58,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 			return false;
 		}
 
+	}
+
+	@Override
+	public List<Department> getAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
