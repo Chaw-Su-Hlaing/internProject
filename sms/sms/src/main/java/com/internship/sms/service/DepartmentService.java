@@ -12,14 +12,14 @@ import com.internship.sms.entity.Department;
  */
 public interface DepartmentService {
 	
-	public List<Department> getAllDepartment();
+	public List<Department> getAll();
 	
 	public Department getDepartmentById(Long id);
 	
-	public Department create(Department dept);
+	public Department create(Department department);
 	
-	public Department update(Department dept);
+	public Department update(Department department);
 	
-	public boolean delete(Department dept);
+	public boolean delete(Department department);
 
 }

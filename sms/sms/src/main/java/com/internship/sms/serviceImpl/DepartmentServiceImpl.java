@@ -38,21 +38,21 @@ public class DepartmentServiceImpl implements DepartmentService {
 		}
 
 	@Override
-	public Department create(Department dept) {
+	public Department create(Department department) {
 		// TODO Auto-generated method stub
-		return departmentRepository.save(dept);
+		return departmentRepository.save(department);
 	}
 
 	@Override
-	public Department update(Department dept) {
+	public Department update(Department department) {
 		// TODO Auto-generated method stub
-		return departmentRepository.save(dept);
+		return departmentRepository.save(department);
 	}
 
 	@Override
-	public boolean delete(Department dept) {
+	public boolean delete(Department department) {
 		try {
-			departmentRepository.delete(dept);
+			departmentRepository.delete(department);
 			return true;
 		} catch (Exception e) {
 			// TODO: handle exception
