@@ -27,7 +27,6 @@ public class Department  extends AbstractEntity implements Serializable {
 	
 	@Column(name = "name")
 	private String name;
-
 	
 	
 }

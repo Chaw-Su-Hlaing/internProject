@@ -3,15 +3,18 @@
  */
 package com.internship.sms.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.common.Response;
 import com.internship.sms.entity.Department;
 import com.internship.sms.service.DepartmentService;
@@ -36,7 +39,7 @@ public class DepartmentController {
 			response.setData(result);
 		} catch (Exception e) {
 			// TODO: handle exception
-			
+
 			e.printStackTrace();
 			response.setStatus(false);
 			response.setMessage("Error Occur");
@@ -54,7 +57,7 @@ public class DepartmentController {
 			response.setData(result);
 		} catch (Exception e) {
 			// TODO: handle exception
-			
+
 			e.printStackTrace();
 			response.setStatus(false);
 			response.setMessage("Error Occur");
@@ -63,7 +66,74 @@ public class DepartmentController {
 		return response;
 	}
 
+	@RequestMapping(value = "save", method = RequestMethod.POST)
+	public Response<Department> create(@RequestBody Department department) {
+		Response<Department> response = new Response<Department>();
+		try {
+			departmentService.create(department);
+			response.setData("Success");
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Error occur");
+			return response;
+		}
+		return response;
+	}
+
+	@RequestMapping(value = "update", method = RequestMethod.POST)
+	public Response<Department> update(@RequestBody Department department) {
+		Response<Department> response = new Response<Department>();
+		try {
+			Department existingData = departmentService.getDepartmentById(department.getId());
+			if (existingData==null) {
+				Department oldData = existingData;
+				oldData = department;
+				oldData.setModifyDate(new Date());
+				response.setData(departmentService.create(oldData));
+				response.setMessage("Update Success");
+
+			} else {
+				response.setMessage("No existing data");
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Error occur");
+			return response;
+		}
+		return response;
+
+	}
 	
-	
-	
+	@RequestMapping(value = "delete", method = RequestMethod.DELETE)
+	public Response<Department> delete(@RequestParam Long departmentId) {
+		Response<Department> response = new Response<Department>();
+		try {
+			Department existingData = departmentService.getDepartmentById(departmentId);
+			if (existingData!=null) {
+				Department oldData = existingData;
+				oldData.setActiveStatus(ActiveStatus.DELETE);
+				oldData.setModifyDate(new Date());
+				response.setData(departmentService.create(oldData));
+				response.setMessage("Delete Success");
+			} else {
+				response.setMessage("No existing data");
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Error occur");
+			return response;
+		}
+		return response;
+
+	}
+
 }

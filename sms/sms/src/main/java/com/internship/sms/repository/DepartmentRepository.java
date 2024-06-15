@@ -3,9 +3,14 @@
  */
 package com.internship.sms.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.internship.demo.common.ActiveStatus;
 import com.internship.sms.entity.Department;
 
 /**
@@ -13,5 +18,7 @@ import com.internship.sms.entity.Department;
  */
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
+	@Query("select u from Department u where u.activeStatus = :activeStatus")
+	  List<Department> getAllByActiveStatus(@Param("activeStatus")ActiveStatus activeStatus);
 
 }
