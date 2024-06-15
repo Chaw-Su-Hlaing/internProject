@@ -71,6 +71,7 @@ public class AcademicYearController {
 	
 	
 	
+	@RequestMapping(value="save",method=RequestMethod.POST)
 	public Response<AcademicYear> create(@RequestParam AcademicYear year)
 	{
 		Response <AcademicYear> response=new Response<>();
