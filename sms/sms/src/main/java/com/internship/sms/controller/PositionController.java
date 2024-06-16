@@ -3,13 +3,18 @@
  */
 package com.internship.sms.controller;
 
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.common.Response;
 import com.internship.sms.entity.Position;
 import com.internship.sms.service.PositionService;
@@ -42,5 +47,134 @@ public class PositionController {
 		return response;
 	}
 
+	@RequestMapping(value = "getAll", method = RequestMethod.GET)
+	public Response<Position> getAll() {
+		Response<Position> response = new Response<Position>();
+		try {
+			List<Position> result = positionService.getAll();
+			response.setMessage("All position lists");
+			response.setData(result);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Error Occurs");
+			return response;
+		}
+		return response;
+	}
+	
+	@RequestMapping(value="save",method=RequestMethod.POST)
+	public Response<Position> create(@RequestBody Position position){
+		Response<Position> response= new Response<Position>();
+		try {
+			positionService.create(position);
+			response.setData("Success");
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Error Occurs");
+			return response;
+		}
+		return response;
+	}
+	
+	@RequestMapping(value="update", method= RequestMethod.POST)
+	public Response<Position> update(@RequestBody Position position){
+		Response<Position> response= new Response<Position>();
+		try {
+			Position existingData= positionService.getPositionById(position.getId());
+			if(existingData!=null) {
+				Position oldData= existingData;
+				oldData= position;
+				oldData.setModifyDate(new Date());
+				response.setData(positionService.create(oldData));
+				response.setMessage("Update Success");
+			}else
+				response.setMessage("No existing data");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Error Occurs");
+			return response;
+		}
+		return response;
+	}
+	
+	@RequestMapping(value="delete", method= RequestMethod.DELETE)
+	public Response<Position> delete(@RequestParam Long positionId){
+		Response<Position> response= new Response<Position>();
+		try {
+			Position existingData= positionService.getPositionById(positionId);
+			if(existingData!=null) {
+				Position oldData= existingData;
+				oldData.setActiveStatus(ActiveStatus.DELETE);;
+				oldData.setModifyDate(new Date());
+				response.setData(positionService.create(oldData));
+				response.setMessage("Delete Success");
+			}else
+				response.setMessage("No existing data");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Error Occurs");
+			return response;
+		}
+		return response;
+	}
+	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
