@@ -16,116 +16,85 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.common.Response;
-import com.internship.sms.entity.Department;
-import com.internship.sms.service.DepartmentService;
+import com.internship.sms.entity.Subject;
+import com.internship.sms.repository.SubjectRepository;
+import com.internship.sms.service.SubjectService;
 
 /**
- * Thu Soe San
+ * 
  */
 @RestController
-@RequestMapping("/department/")
+@RequestMapping("/subject/")
 @CrossOrigin(origins = "*")
-public class DepartmentController {
-
+public class SubjectController {
 	@Autowired
-	DepartmentService departmentService;
+	SubjectService subjectService;
 
 	@RequestMapping(value = "getById", method = RequestMethod.GET)
-	public Response<Department> getById(@RequestParam Long id) {
-		Response<Department> response = new Response<Department>();
+	public Response<Subject> getById(@RequestParam Long id) {
+		Response<Subject> response = new Response<Subject>();
 		try {
-			Department result = departmentService.getDepartmentById(id);
-			response.setMessage("All Department lists");
+			Subject result = subjectService.getSubjectById(id);
+			response.setMessage("All Subject Lists");
 			response.setData(result);
+
 		} catch (Exception e) {
 			// TODO: handle exception
-
 			e.printStackTrace();
 			response.setStatus(false);
-			response.setMessage("Error Occur");
+			response.setMessage("Error Occurs");
 			return response;
 		}
 		return response;
 	}
 
 	@RequestMapping(value = "getAll", method = RequestMethod.GET)
-	public Response<Department> getAll() {
-		Response<Department> response = new Response<Department>();
+	public Response<Subject> getAll() {
+		Response<Subject> response = new Response<Subject>();
 		try {
-			List<Department> result = departmentService.getAll();
-			response.setMessage("All Department lists");
+			List<Subject> result = subjectService.getAll();
+			response.setMessage("All Subject Lists");
 			response.setData(result);
-		} catch (Exception e) {
-			// TODO: handle exception
-
-			e.printStackTrace();
-			response.setStatus(false);
-			response.setMessage("Error Occur");
-			return response;
-		}
-		return response;
-	}
-
-	@RequestMapping(value = "save", method = RequestMethod.POST)
-	public Response<Department> create(@RequestBody Department department) {
-		Response<Department> response = new Response<Department>();
-		try {
-			departmentService.create(department);
-			
-			response.setMessage("Success");
 
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			response.setStatus(false);
-			response.setMessage("Error occur");
+			response.setMessage("Error Occurs");
 			return response;
 		}
 		return response;
-	}
-
-	@RequestMapping(value = "update", method = RequestMethod.POST)
-	public Response<Department> update(@RequestBody Department department) {
-		Response<Department> response = new Response<Department>();
-		try {
-			Department existingData = departmentService.getDepartmentById(department.getId());
-			if (existingData!=null) {
-				Department oldData = existingData;
-				oldData = department;
-				oldData.setModifyDate(new Date());
-				response.setData(departmentService.create(oldData));
-				response.setMessage("Update Success");
-
-			} else {
-				response.setMessage("No existing data");
-			}
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			response.setStatus(false);
-			response.setMessage("Error occur");
-			return response;
-		}
-		return response;
-
 	}
 	
-	@RequestMapping(value = "delete", method = RequestMethod.DELETE)
-	public Response<Department> delete(@RequestParam Long departmentId) {
-		Response<Department> response = new Response<Department>();
+	@RequestMapping(value="save",method=RequestMethod.POST)
+	public Response<Subject> create(@RequestBody Subject subject){
+		Response<Subject> response=new Response<Subject>();
 		try {
-			Department existingData = departmentService.getDepartmentById(departmentId);
-			if (existingData!=null) {
-				Department oldData = existingData;
-				oldData.setActiveStatus(ActiveStatus.DELETE);
-				oldData.setModifyDate(new Date());
-				response.setData(departmentService.create(oldData));
-				response.setMessage("Delete Success");
-			} else {
-				response.setMessage("No existing data");
-			}
+			subjectService.create(subject);
+		response.setData("Success");	
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Error Occurs");
+			return response;
+		}
+		return response;
+	}
 
+	@RequestMapping(value="update",method=RequestMethod.POST)
+	public Response<Subject> update(@RequestBody Subject subject){
+		Response<Subject> response=new Response<Subject>();
+	
+		try {
+			Subject existingData= subjectService.getSubjectById(subject.getId());
+			if(existingData!=null) {
+				Subject oldData= existingData;
+				oldData = subject;
+				response.setData(subjectService.create(oldData));
+				response.setMessage("Update Success");
+			}else
+				response.setMessage("No existing data");
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -134,7 +103,29 @@ public class DepartmentController {
 			return response;
 		}
 		return response;
-
 	}
-
+	
+	@RequestMapping(value="delete",method=RequestMethod.DELETE)
+	public Response<Subject> delete(@RequestParam Long subjectId){
+		Response<Subject> response=new Response<Subject>();
+	
+		try {
+			Subject existingData= subjectService.getSubjectById(subjectId);
+			if(existingData!=null) {
+				Subject oldData= existingData;
+				oldData.setActiveStatus(ActiveStatus.DELETE);
+				oldData.setModifyDate(new Date());
+				response.setData(subjectService.create(oldData));
+				response.setMessage("Delete Success");
+			}else
+				response.setMessage("No existing data");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Error occur");
+			return response;
+		}
+		return response;
+	}
 }

@@ -11,14 +11,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.internship.sms.common.ActiveStatus;
-import com.internship.sms.entity.Department;
+import com.internship.sms.entity.Subject;
+
 
 /**
- * Thu Soe San
+ * 
  */
 @Repository
-public interface DepartmentRepository extends JpaRepository<Department, Long> {
-	@Query("select u from Department u where u.activeStatus = :activeStatus")
-	  List<Department> getAllByActiveStatus(@Param("activeStatus")ActiveStatus activeStatus);
-
+public interface SubjectRepository extends JpaRepository<Subject, Long>{
+	@Query("select u from Subject u where u.activeStatus = :activeStatus")
+	  List<Subject> getAllByActiveStatus(@Param("activeStatus")ActiveStatus activeStatus);
 }
