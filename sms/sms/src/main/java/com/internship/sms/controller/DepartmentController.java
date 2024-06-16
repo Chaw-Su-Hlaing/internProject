@@ -23,7 +23,7 @@ import com.internship.sms.service.DepartmentService;
  * Thu Soe San
  */
 @RestController
-@RequestMapping("/dept/")
+@RequestMapping("/department/")
 @CrossOrigin(origins = "*")
 public class DepartmentController {
 
