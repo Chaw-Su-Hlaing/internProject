@@ -88,7 +88,7 @@ public class DepartmentController {
 		Response<Department> response = new Response<Department>();
 		try {
 			Department existingData = departmentService.getDepartmentById(department.getId());
-			if (existingData==null) {
+			if (existingData!=null) {
 				Department oldData = existingData;
 				oldData = department;
 				oldData.setModifyDate(new Date());
