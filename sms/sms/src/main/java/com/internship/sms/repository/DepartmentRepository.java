@@ -19,6 +19,6 @@ import com.internship.sms.entity.Department;
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
 	@Query("select u from Department u where u.activeStatus = :activeStatus")
-	  List<Department> getAllByActiveStatus(@Param("activeStatus")ActiveStatus activeStatus);
+	List<Department> getAllByActiveStatus(@Param("activeStatus") ActiveStatus activeStatus);
 
 }

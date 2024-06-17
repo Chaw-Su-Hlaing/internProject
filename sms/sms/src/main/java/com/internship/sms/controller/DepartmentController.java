@@ -70,7 +70,11 @@ public class DepartmentController {
 	public Response<Department> create(@RequestBody Department department) {
 		Response<Department> response = new Response<Department>();
 		try {
+
 			response.setData(departmentService.create(department)); 	
+
+			departmentService.create(department);
+
 			response.setMessage("Success");
 
 		} catch (Exception e) {
