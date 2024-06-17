@@ -3,9 +3,12 @@ package com.internship.sms.serviceImpl;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import com.internship.sms.entity.Staff;
 import com.internship.sms.repository.StaffRepository;
 import com.internship.sms.service.StaffService;
+
+@Service
 public class StaffServiceImpl implements StaffService {
 	
 	@Autowired
