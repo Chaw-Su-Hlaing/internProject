@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.entity.Position;
 import com.internship.sms.repository.PositionRepository;
 import com.internship.sms.service.PositionService;
@@ -24,7 +25,7 @@ public class PositionServiceImpl implements PositionService {
 	@Override
 	public List<Position> getAll() {
 		// TODO Auto-generated method stub
-		return positionRepository.findAll();
+		return positionRepository.getAllByActiveStatus(ActiveStatus.ACTIVE);
 	}
 
 	@Override

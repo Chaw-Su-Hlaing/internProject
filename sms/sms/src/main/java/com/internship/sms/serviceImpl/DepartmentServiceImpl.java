@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.entity.Department;
 import com.internship.sms.repository.DepartmentRepository;
 import com.internship.sms.service.DepartmentService;
@@ -24,7 +25,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	public List<Department> getAll() {
 		// TODO Auto-generated method stub
-		return departmentRepository.findAll();
+		return departmentRepository.getAllByActiveStatus(ActiveStatus.ACTIVE);
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.entity.Subject;
 import com.internship.sms.repository.SubjectRepository;
 import com.internship.sms.service.SubjectService;
@@ -25,7 +26,7 @@ public class SubjectServiceImpl implements SubjectService{
 	@Override
 	public List<Subject> getAll() {
 		// TODO Auto-generated method stub
-		return subjectRepository.findAll();
+		return subjectRepository.getAllByActiveStatus(ActiveStatus.ACTIVE);
 	}
 
 	@Override

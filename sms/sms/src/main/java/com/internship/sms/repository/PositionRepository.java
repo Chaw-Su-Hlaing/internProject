@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.internship.demo.common.ActiveStatus;
+import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.entity.Position;
 
 /**
