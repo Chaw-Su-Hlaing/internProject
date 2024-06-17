@@ -71,14 +71,7 @@ public class DepartmentController {
 		Response<Department> response = new Response<Department>();
 		try {
 
-
-			response.setData(departmentService.create(department)); 	
-
-			departmentService.create(department);
-
 			response.setData(departmentService.create(department));
-
-
 			response.setMessage("Success");
 
 		} catch (Exception e) {
