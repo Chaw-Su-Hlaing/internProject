@@ -105,11 +105,11 @@ public class SubjectController {
 	}
 
 	@RequestMapping(value = "delete", method = RequestMethod.DELETE)
-	public Response<Subject> delete(@RequestParam Long subjectId) {
+	public Response<Subject> delete(@RequestParam Long id) {
 		Response<Subject> response = new Response<Subject>();
 
 		try {
-			Subject existingData = subjectService.getSubjectById(subjectId);
+			Subject existingData = subjectService.getSubjectById(id);
 			if (existingData != null) {
 				Subject oldData = existingData;
 				oldData.setActiveStatus(ActiveStatus.DELETE);

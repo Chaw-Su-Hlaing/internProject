@@ -112,10 +112,10 @@ public class DepartmentController {
 	}
 
 	@RequestMapping(value = "delete", method = RequestMethod.DELETE)
-	public Response<Department> delete(@RequestParam Long departmentId) {
+	public Response<Department> delete(@RequestParam Long id) {
 		Response<Department> response = new Response<Department>();
 		try {
-			Department existingData = departmentService.getDepartmentById(departmentId);
+			Department existingData = departmentService.getDepartmentById(id);
 			if (existingData != null) {
 				Department oldData = existingData;
 				oldData.setActiveStatus(ActiveStatus.DELETE);

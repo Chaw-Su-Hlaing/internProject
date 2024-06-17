@@ -105,10 +105,10 @@ public class PositionController {
 	}
 
 	@RequestMapping(value = "delete", method = RequestMethod.DELETE)
-	public Response<Position> delete(@RequestParam Long positionId) {
+	public Response<Position> delete(@RequestParam Long id) {
 		Response<Position> response = new Response<Position>();
 		try {
-			Position existingData = positionService.getPositionById(positionId);
+			Position existingData = positionService.getPositionById(id);
 			if (existingData != null) {
 				Position oldData = existingData;
 				oldData.setActiveStatus(ActiveStatus.DELETE);
