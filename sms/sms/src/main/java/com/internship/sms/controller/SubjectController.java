@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.common.Response;
 import com.internship.sms.entity.Subject;
-import com.internship.sms.repository.SubjectRepository;
 import com.internship.sms.service.SubjectService;
 
 /**
