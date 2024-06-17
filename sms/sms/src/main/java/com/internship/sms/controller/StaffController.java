@@ -3,15 +3,21 @@ package com.internship.sms.controller;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.common.Response;
 import com.internship.sms.entity.Staff;
 import com.internship.sms.service.StaffService;
 
+@RestController
+@RequestMapping("/staff/")
+@CrossOrigin(origins = "*")
 public class StaffController {
 	
 	@Autowired

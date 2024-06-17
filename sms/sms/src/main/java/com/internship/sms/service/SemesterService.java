@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.internship.sms.entity.Semester;
 
+
 public interface SemesterService {
 	
 	public List<Semester> getAllSemester();
