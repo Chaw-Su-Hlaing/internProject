@@ -65,13 +65,13 @@ public class SubjectController {
 		}
 		return response;
 	}
-	
-	@RequestMapping(value="save",method=RequestMethod.POST)
-	public Response<Subject> create(@RequestBody Subject subject){
-		Response<Subject> response=new Response<Subject>();
+
+	@RequestMapping(value = "save", method = RequestMethod.POST)
+	public Response<Subject> create(@RequestBody Subject subject) {
+		Response<Subject> response = new Response<Subject>();
 		try {
-			subjectService.create(subject);
-		response.setData("Success");	
+			response.setData(subjectService.create(subject));
+			response.setData("Success");
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -82,18 +82,18 @@ public class SubjectController {
 		return response;
 	}
 
-	@RequestMapping(value="update",method=RequestMethod.POST)
-	public Response<Subject> update(@RequestBody Subject subject){
-		Response<Subject> response=new Response<Subject>();
-	
+	@RequestMapping(value = "update", method = RequestMethod.POST)
+	public Response<Subject> update(@RequestBody Subject subject) {
+		Response<Subject> response = new Response<Subject>();
+
 		try {
-			Subject existingData= subjectService.getSubjectById(subject.getId());
-			if(existingData!=null) {
-				Subject oldData= existingData;
+			Subject existingData = subjectService.getSubjectById(subject.getId());
+			if (existingData != null) {
+				Subject oldData = existingData;
 				oldData = subject;
 				response.setData(subjectService.create(oldData));
 				response.setMessage("Update Success");
-			}else
+			} else
 				response.setMessage("No existing data");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -104,20 +104,20 @@ public class SubjectController {
 		}
 		return response;
 	}
-	
-	@RequestMapping(value="delete",method=RequestMethod.DELETE)
-	public Response<Subject> delete(@RequestParam Long subjectId){
-		Response<Subject> response=new Response<Subject>();
-	
+
+	@RequestMapping(value = "delete", method = RequestMethod.DELETE)
+	public Response<Subject> delete(@RequestParam Long subjectId) {
+		Response<Subject> response = new Response<Subject>();
+
 		try {
-			Subject existingData= subjectService.getSubjectById(subjectId);
-			if(existingData!=null) {
-				Subject oldData= existingData;
+			Subject existingData = subjectService.getSubjectById(subjectId);
+			if (existingData != null) {
+				Subject oldData = existingData;
 				oldData.setActiveStatus(ActiveStatus.DELETE);
 				oldData.setModifyDate(new Date());
 				response.setData(subjectService.create(oldData));
 				response.setMessage("Delete Success");
-			}else
+			} else
 				response.setMessage("No existing data");
 		} catch (Exception e) {
 			// TODO: handle exception
