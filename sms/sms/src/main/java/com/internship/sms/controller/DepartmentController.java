@@ -71,9 +71,13 @@ public class DepartmentController {
 		Response<Department> response = new Response<Department>();
 		try {
 
+
 			response.setData(departmentService.create(department)); 	
 
 			departmentService.create(department);
+
+			response.setData(departmentService.create(department));
+
 
 			response.setMessage("Success");
 
@@ -92,7 +96,7 @@ public class DepartmentController {
 		Response<Department> response = new Response<Department>();
 		try {
 			Department existingData = departmentService.getDepartmentById(department.getId());
-			if (existingData!=null) {
+			if (existingData != null) {
 				Department oldData = existingData;
 				oldData = department;
 				oldData.setModifyDate(new Date());
@@ -113,13 +117,13 @@ public class DepartmentController {
 		return response;
 
 	}
-	
+
 	@RequestMapping(value = "delete", method = RequestMethod.DELETE)
 	public Response<Department> delete(@RequestParam Long departmentId) {
 		Response<Department> response = new Response<Department>();
 		try {
 			Department existingData = departmentService.getDepartmentById(departmentId);
-			if (existingData!=null) {
+			if (existingData != null) {
 				Department oldData = existingData;
 				oldData.setActiveStatus(ActiveStatus.DELETE);
 				oldData.setModifyDate(new Date());

@@ -3,12 +3,23 @@ package com.internship.sms.entity;
 import java.io.Serializable;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Thu Soe San
  */
 
+<<<<<<< HEAD
 
+=======
+@Getter
+@Setter
+@Entity
+@Table(name="semester")
+>>>>>>> 8e846f6f3c4b78c2933cb9471a6a4d5d8695566a
 public class Semester extends AbstractEntity implements Serializable {
 
 	/**
