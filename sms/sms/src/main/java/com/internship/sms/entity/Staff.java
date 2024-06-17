@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="Staff")
+@Table(name="staff")
 
 public class Staff extends AbstractEntity implements Serializable {
 

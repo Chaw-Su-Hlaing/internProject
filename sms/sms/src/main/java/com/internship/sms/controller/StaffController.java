@@ -63,7 +63,8 @@ public class StaffController {
 	public Response<Staff> create(@RequestBody Staff staff){
 		Response<Staff> response = new Response<>();
 		try {
-			staffService.create(staff);
+			Staff result=staffService.create(staff);
+			response.setData(result);
 			response.setMessage("create success)");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -103,10 +104,12 @@ public class StaffController {
 		try {
 			Staff existingData=staffService.getStaffById(id);
 			if (existingData!=null) {
-				Staff oldData=existingData;
+				Staff oldData = existingData;
+				 oldData=existingData;
 				oldData.setActiveStatus(ActiveStatus.DELETE);
 				oldData.setModifyDate(new Date());
-				staffService.delete(oldData);
+				
+				response.setData(staffService.create(oldData));
 				response.setMessage("Delete success");
 			} else {
 				response.setMessage("No existing data");
