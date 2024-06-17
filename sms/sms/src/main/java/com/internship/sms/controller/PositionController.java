@@ -69,7 +69,7 @@ public class PositionController {
 		Response<Position> response = new Response<Position>();
 		try {
 			response.setData(positionService.create(position));
-			response.setData("Success");
+			response.setMessage("Success");
 
 		} catch (Exception e) {
 			// TODO: handle exception
