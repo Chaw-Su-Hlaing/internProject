@@ -4,11 +4,13 @@
 package com.internship.sms.serviceImpl;
 
 import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.entity.AcademicYear;
 import com.internship.sms.repository.AcademicYearRepository;
 import com.internship.sms.service.AcademicYearService;
@@ -25,7 +27,7 @@ public class AcademicYearServiceImpl implements AcademicYearService {
 	@Override
 	public List<AcademicYear> getAllAcademicYear() {
 		// TODO Auto-generated method stub
-		return academicYearRepository.findAll();
+		return academicYearRepository.getAllByActiveStatus(ActiveStatus.ACTIVE);
 	}
 
 	@Override
