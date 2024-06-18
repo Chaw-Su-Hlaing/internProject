@@ -70,7 +70,7 @@ public class SubjectController {
 		Response<Subject> response = new Response<Subject>();
 		try {
 			response.setData(subjectService.create(subject));
-			response.setData("Success");
+			response.setMessage("Success");
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
