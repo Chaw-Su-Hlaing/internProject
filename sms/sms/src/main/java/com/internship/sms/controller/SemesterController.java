@@ -23,7 +23,7 @@ public class SemesterController {
 	SemesterService semesterService;
 	
 	@RequestMapping(value="getAll",method = RequestMethod.GET)
-	public Response<Semester> getAll(@RequestBody Semester semester){
+	public Response<Semester> getAll(){
 		Response<Semester> response = new Response<Semester>();
 		try {
 			List<Semester> result=semesterService.getAllSemester();
@@ -103,7 +103,7 @@ public class SemesterController {
 				Semester oldData=existingData;
 				oldData.setActiveStatus(ActiveStatus.DELETE);
 				oldData.setModifyDate(new Date());
-				semesterService.delete(oldData);
+				response.setData(semesterService.create(oldData));
 				response.setMessage("Delete success");
 			} else {
 				response.setMessage("No existing data");

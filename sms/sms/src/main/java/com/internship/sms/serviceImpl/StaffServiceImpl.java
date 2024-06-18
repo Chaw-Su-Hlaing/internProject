@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.entity.Staff;
 import com.internship.sms.repository.StaffRepository;
 import com.internship.sms.service.StaffService;
@@ -19,7 +20,7 @@ public class StaffServiceImpl implements StaffService {
 	@Override
 	public List<Staff> getAllStaff() {
 		// TODO Auto-generated method stub
-		return staffRepository.findAll();
+		return staffRepository.getAllByActiveStatus(ActiveStatus.ACTIVE);
 	}
 
 	@Override
