@@ -4,6 +4,8 @@ package com.internship.sms.entity;
 import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="staff")
+@Table(name = "staff")
 
 public class Staff extends AbstractEntity implements Serializable {
 
@@ -25,34 +27,38 @@ public class Staff extends AbstractEntity implements Serializable {
 	/**
 	 * 
 	 */
-	
-	
-	@Column(name="name",length=50)
+
+	@Column(name = "name", length = 50)
 	private String staffName;
-	
-	@Column(name="phoneNo",length=50)
+
+	@Column(name = "phoneNo", length = 50)
 	private String staffPhoneNo;
-	
-	@Column(name="address",length=50)
+
+	@Column(name = "address", length = 50)
 	private String staffAddress;
-	
-	@Column(name="email",length=50)
+
+	@Column(name = "email", length = 50)
 	private String staffEmail;
-	
-	@Column(name="gender",length=20)
+
+	@Column(name = "gender", length = 20)
 	private String staffGender;
-	
-	@Column(name="nrc_no")
+
+	@Column(name = "nrc_no")
 	private String staffNrcNo;
-	
-	@Column(name="position",length=80)
-	private String staffPosition;
-	
-	@Column(name="profile_picture")
+
+//	@Column(name="position",length=80)
+//	private String staffPosition;
+
+	@Column(name = "profile_picture")
 	private String staffProfilePicture;
+
+//	@ManyToMany
+//	@JoinTable(name = "staff_position", joinColumns = {
+//			@JoinColumn(name = "staff_id", referencedColumnName = "id") }, inverseJoinColumns = {
+//					@JoinColumn(name = "position_id", referencedColumnName = "id") })
+//	private List<Position> staffPosition;
 	
-	
-	
-	
+	 @ManyToOne
+	 @JoinColumn(name = "position_id") private Position staffPosition;
 
 }
