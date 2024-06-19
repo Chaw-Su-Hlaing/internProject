@@ -1,6 +1,7 @@
 package com.internship.sms.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,9 +29,9 @@ public class Semester extends AbstractEntity implements Serializable {
 	private String semesterName;
 	
 	@Column(name="start_date")
-	private String semStartDate;
+	private Date semStartDate;
 	
 	@Column (name="end_date")
-	private String semEndDate;
+	private Date semEndDate;
 
 }
