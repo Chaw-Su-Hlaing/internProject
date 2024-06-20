@@ -70,9 +70,17 @@ public class DepartmentController {
 	public Response<Department> create(@RequestBody Department department) {
 		Response<Department> response = new Response<Department>();
 		try {
-
-			response.setData(departmentService.create(department));
-			response.setMessage("Success");
+			/* Check to avoid same department */
+			Department checkDept = departmentService.checkByName(department.getName());
+			if(checkDept != null) {
+				response.setStatus(false);
+				response.setMessage("Existing Department Name.");
+			}else {
+				response.setData(departmentService.create(department));
+				response.setMessage("Success");
+			}
+			/* End of Check to avoid same department */
+			
 
 		} catch (Exception e) {
 			// TODO: handle exception

@@ -22,4 +22,6 @@ public interface DepartmentService {
 	
 	public boolean delete(Department department);
 
+	public Department checkByName(String name);
+
 }

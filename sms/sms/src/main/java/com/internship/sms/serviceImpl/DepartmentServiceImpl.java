@@ -30,12 +30,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Override
 	public Department getDepartmentById(Long id) {
-		Optional<Department> optional =departmentRepository.findById(id);
-		if(optional.isPresent())
+		Optional<Department> optional = departmentRepository.findById(id);
+		if (optional.isPresent())
 			return optional.get();
-		else 
+		else
 			return null;
-		}
+	}
 
 	@Override
 	public Department create(Department department) {
@@ -61,5 +61,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	}
 
+	@Override
+	public Department checkByName(String name) {
+		// TODO Auto-generated method stub
+		Department result = departmentRepository.checkByName(name);
+		return result;
+	}
 
 }

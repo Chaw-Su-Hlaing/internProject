@@ -66,6 +66,7 @@ public class PositionController {
 
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	public Response<Position> create(@RequestBody Position position) {
+
 		Response<Position> response = new Response<Position>();
 		try {
 			response.setData(positionService.create(position));
