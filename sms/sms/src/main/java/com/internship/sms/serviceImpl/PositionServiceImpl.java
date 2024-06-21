@@ -62,6 +62,13 @@ public class PositionServiceImpl implements PositionService {
 			return false;
 		}
 	}
+
+	@Override
+	public Position checkByName(String name) {
+		// TODO Auto-generated method stub
+		Position result=  positionRepository.checkByName(name);
+		return result;
+	}
 	
 
 }

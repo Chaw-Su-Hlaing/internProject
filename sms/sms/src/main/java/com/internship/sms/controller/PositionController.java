@@ -68,10 +68,20 @@ public class PositionController {
 	public Response<Position> create(@RequestBody Position position) {
 
 		Response<Position> response = new Response<Position>();
+		
 		try {
-			response.setData(positionService.create(position));
-			response.setMessage("Success");
-
+			/* Check to avoid same position */
+			Position checkpos=positionService.checkByName(position.getName());
+			if(checkpos!=null) {
+				response.setStatus(false);
+				response.setMessage("Existing Position Name");	
+			}else
+			{
+				response.setData(positionService.create(position));
+				response.setMessage("Success");
+			}
+			/* End of Check to avoid same position */
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

@@ -18,8 +18,10 @@ import com.internship.sms.entity.Position;
  */
 @Repository
 public interface PositionRepository extends JpaRepository<Position, Long> {
-	
+
 	@Query("select u from Position u where u.activeStatus = :activeStatus")
 	List<Position> getAllByActiveStatus(@Param("activeStatus") ActiveStatus activeStatus);
 
+	@Query("select u from Position u where u.name = :posName")
+	Position checkByName(@Param("posName") String name);
 }

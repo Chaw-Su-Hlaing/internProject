@@ -20,4 +20,6 @@ public Position create(Position position);
 public Position update(Position position);
 
 public boolean delete(Position position);
+
+public Position checkByName(String name);
 }
