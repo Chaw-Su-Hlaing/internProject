@@ -17,7 +17,7 @@ public class Util {
 	public static String uploadFile(MultipartFile file, String realPath, String relativePath) {
 		String fileName = file.getOriginalFilename();
 		fileName = fileName.replaceAll(" ", "_");
-		File destinationPath = new File(relativePath + fileName);
+		File destinationPath = new File(realPath + fileName);
 		try {
 			FileUtils.writeByteArrayToFile(destinationPath, file.getBytes());
 		} catch (IOException e) {
