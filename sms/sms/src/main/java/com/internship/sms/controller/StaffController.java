@@ -19,7 +19,9 @@ import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.common.Response;
 import com.internship.sms.common.Util;
 import com.internship.sms.entity.Staff;
+import com.internship.sms.entity.User;
 import com.internship.sms.service.StaffService;
+import com.internship.sms.service.UserService;
 
 @RestController
 @RequestMapping("/staff/")
@@ -37,6 +39,9 @@ public class StaffController {
 
 	@Autowired
 	StaffService staffService;
+
+	@Autowired
+	UserService userService;
 
 	@RequestMapping(value = "getAll", method = RequestMethod.GET)
 	public Response<Staff> getAll() {
@@ -98,6 +103,16 @@ public class StaffController {
 				staff.setStaffProfilePicture(defaultStaffPhoto);
 
 			Staff result = staffService.create(staff);
+			if (!result.getStaffEmail().isEmpty()) {
+				User user = new User();
+				user.setUserName(result.getStaffGender().equals("Male") ? "U " : "Daw " + result.getStaffName());
+				user.setEmail(result.getStaffEmail());
+				user.setPassword("P@ssw0rd");
+				user.setRole("TEACHER");
+				
+				userService.createUser(user);
+				
+			}
 			response.setData(result);
 			response.setMessage("create success)");
 		} catch (Exception e) {
@@ -117,10 +132,27 @@ public class StaffController {
 		try {
 			Staff existingData = staffService.getStaffById(staff.getId());
 			if (existingData != null) {
-				Staff oldData = new Staff();
-				oldData = staff;
-				oldData.setModifyDate(new Date());
-				response.setData(staffService.create(oldData));
+				staff.setModifyDate(new Date());				
+				if (!staff.getStaffEmail().isEmpty()) {
+					User user = userService.findByEmail(existingData.getStaffEmail());
+					if(user != null) {
+						if(user.getEmail().equals(staff.getStaffEmail())) {
+							user.setUserName(staff.getStaffGender().equals("Male") ? "U " : "Daw " + staff.getStaffName());
+							
+						}else {
+							user.setUserName(staff.getStaffGender().equals("Male") ? "U " : "Daw " + staff.getStaffName());
+							user.setEmail(staff.getStaffEmail());
+						}
+					}else {
+						user = new User();
+						user.setUserName(staff.getStaffGender().equals("Male") ? "U " : "Daw " + staff.getStaffName());
+						user.setEmail(staff.getStaffEmail());
+						user.setPassword("P@ssw0rd");
+						user.setRole("TEACHER");
+					}				
+					userService.createUser(user);
+				}
+				staffService.create(staff);
 				response.setMessage("Update success");
 			} else {
 				response.setMessage("No existing data");

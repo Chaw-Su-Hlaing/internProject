@@ -12,5 +12,5 @@ import com.internship.sms.entity.Staff;
 
 public interface StaffRepository extends JpaRepository<Staff, Long> {
 	@Query("select u from Staff u where u.activeStatus = :activeStatus")
-	  List<Staff> getAllByActiveStatus(@Param("activeStatus")ActiveStatus activeStatus);
+	List<Staff> getAllByActiveStatus(@Param("activeStatus") ActiveStatus activeStatus);
 }

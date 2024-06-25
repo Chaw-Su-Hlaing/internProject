@@ -18,7 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="Family")
+@Table(name="FamilyMember")
 
 public class FamilyMember extends AbstractEntity implements Serializable{
 
@@ -26,34 +26,32 @@ public class FamilyMember extends AbstractEntity implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -2543362043005795781L;
-	@Column(name="parent_name")
-	private String par_name;
+	@Column(name="name")
+	private String name;
 	
-	@Column(name="Relation")
+	@Column(name="nrcNo")
+	private String nrcNo;
+	
+	
+	@Column(name="nation")
+	private String nation;
+	
+	@Column(name="relation")
 	private String relationStatus;
 	
-	@Column(name="parent_phone_no")
-	private String par_phone;
+	@Column(name="religion")
+	private String religion;
+	
+	@Column(name="occupation")
+	private String occupation;
 	
 	@Column(name="Address")
-	private String par_address;
+	private String address;
 	
-	@Column(name="guardian_status")
-	private boolean guardian;
+	@Column(name="phoneNo")
+	private String phoneNo;
 	
-	@Column(name="parent_occupation")
-	private String par_occupation;
-	
-	@Column(name="parent_nrcNo")
-	private String par_nrcNo;
-	
-	
-	@Column(name="Parent_National")
-	private String par_national;
-	
-	
-	@Column(name="religion")
-	private String par_religion;
+	@Column(name="guardian")
+	private boolean guardianStatus;
 
-	
 }
