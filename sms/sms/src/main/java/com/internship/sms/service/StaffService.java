@@ -2,7 +2,10 @@ package com.internship.sms.service;
 
 import java.util.List;
 
+
 import com.internship.sms.entity.Staff;
+
+
 public interface StaffService {
 	
 	public List<Staff> getAllStaff();

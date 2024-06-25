@@ -39,7 +39,7 @@ public class StaffController {
 	StaffService staffService;
 
 	@RequestMapping(value = "getAll", method = RequestMethod.GET)
-	public Response<Staff> getAl() {
+	public Response<Staff> getAll() {
 		Response<Staff> response = new Response<Staff>();
 
 		try {
@@ -81,6 +81,7 @@ public class StaffController {
 
 		if (uploadFile == null || uploadFile.isEmpty()) {
 			response.setStatus(false);
+			response.setData(defaultStaffPhoto);
 			response.setMessage("Invalid file upload");
 		} else {
 			String filePath = Util.uploadFile(uploadFile, staffRealPath, staffRelativePath);
