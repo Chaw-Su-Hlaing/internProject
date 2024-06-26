@@ -75,7 +75,7 @@ public class StudentController {
 			Student result = studentservice.create(student);
 			if (!result.getStu_email().isEmpty()) {
 				User user = new User();
-				user.setUserName(result.getStu_gender().equals("Male") ? "Mg " : "Ma " + result.getStu_name());
+				user.setUserName((result.getStu_gender().equals("Male") ? "Mg " : "Ma " )+ result.getStu_name());
 				user.setEmail(result.getStu_email());
 				user.setPassword("P@ssw0rd");
 				user.setRole("STUDENT");
@@ -108,15 +108,15 @@ public class StudentController {
 					User user = userService.findByEmail(existingData.getStu_email());
 					if(user != null) {
 						if(user.getEmail().equals(student.getStu_email())) {
-							user.setUserName(student.getStu_gender().equals("Male") ? "Mg " : "Ma " + student.getStu_name());
+							user.setUserName((student.getStu_gender().equals("Male") ? "Mg " : "Ma ") + student.getStu_name());
 							
 						}else {
-							user.setUserName(student.getStu_gender().equals("Male") ? "Mg " : "Ma " + student.getStu_name());
+							user.setUserName((student.getStu_gender().equals("Male") ? "Mg " : "Ma ") + student.getStu_name());
 							user.setEmail(student.getStu_email());
 						}
 					}else {
 						user = new User();
-						user.setUserName(student.getStu_gender().equals("Male") ? "Mg " : "Ma " + student.getStu_name());
+						user.setUserName((student.getStu_gender().equals("Male") ? "Mg " : "Ma ") + student.getStu_name());
 						user.setEmail(student.getStu_email());
 						user.setPassword("P@ssw0rd");
 						user.setRole("STUDENT");

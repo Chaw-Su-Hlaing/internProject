@@ -105,7 +105,7 @@ public class StaffController {
 			Staff result = staffService.create(staff);
 			if (!result.getStaffEmail().isEmpty()) {
 				User user = new User();
-				user.setUserName(result.getStaffGender().equals("Male") ? "U " : "Daw " + result.getStaffName());
+				user.setUserName((result.getStaffGender().equals("Male") ? "U " : "Daw " )+ result.getStaffName());
 				user.setEmail(result.getStaffEmail());
 				user.setPassword("P@ssw0rd");
 				user.setRole("TEACHER");
@@ -137,15 +137,15 @@ public class StaffController {
 					User user = userService.findByEmail(existingData.getStaffEmail());
 					if(user != null) {
 						if(user.getEmail().equals(staff.getStaffEmail())) {
-							user.setUserName(staff.getStaffGender().equals("Male") ? "U " : "Daw " + staff.getStaffName());
+							user.setUserName((staff.getStaffGender().equals("Male") ? "U " : "Daw ") + staff.getStaffName());
 							
 						}else {
-							user.setUserName(staff.getStaffGender().equals("Male") ? "U " : "Daw " + staff.getStaffName());
+							user.setUserName((staff.getStaffGender().equals("Male") ? "U " : "Daw ") + staff.getStaffName());
 							user.setEmail(staff.getStaffEmail());
 						}
 					}else {
 						user = new User();
-						user.setUserName(staff.getStaffGender().equals("Male") ? "U " : "Daw " + staff.getStaffName());
+						user.setUserName((staff.getStaffGender().equals("Male") ? "U " : "Daw ") + staff.getStaffName());
 						user.setEmail(staff.getStaffEmail());
 						user.setPassword("P@ssw0rd");
 						user.setRole("TEACHER");
