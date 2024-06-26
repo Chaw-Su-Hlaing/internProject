@@ -84,6 +84,34 @@ public class FamilyMemberController {
 		return response;
 	}
 	
+	@RequestMapping(value = "update", method = RequestMethod.POST)
+	public Response<FamilyMember> update(@RequestBody FamilyMember member) {
+		Response<FamilyMember> response = new Response<>();
+		try {
+			FamilyMember existingData = familyMemberService.getFamilyMemberById(member.getId());
+			if (existingData != null) {
+				FamilyMember oldData = existingData;
+				oldData = member;
+				oldData.setModifyDate(new Date());
+				response.setData(familyMemberService.create(oldData));
+				response.setMessage("Update Success");
+
+			} else {
+				response.setMessage("No existing data");
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Error occur");
+			return response;
+		}
+		return response;
+
+	}
+
+	
 	
 	@RequestMapping(value = "delete", method = RequestMethod.DELETE)
 	public Response<FamilyMember> delete(@RequestParam Long id) {

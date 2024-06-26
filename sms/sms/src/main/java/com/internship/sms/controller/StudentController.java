@@ -15,20 +15,25 @@ import org.springframework.web.bind.annotation.RestController;
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.common.Response;
 import com.internship.sms.entity.Student;
+import com.internship.sms.entity.User;
 import com.internship.sms.service.StudentService;
+import com.internship.sms.service.UserService;
 
 @RestController
 @RequestMapping("/student/")
 @CrossOrigin(origins = "*")
 public class StudentController {
 	@Autowired
-	StudentService service;
+	StudentService studentservice;
 	
+	@Autowired
+	UserService userService;
+
 	@RequestMapping(value = "getById", method = RequestMethod.GET)
 	public Response<Student> getById(@RequestParam Long id) {
 		Response<Student> response = new Response<Student>();
 		try {
-			Student result = service.getStudentById(id);
+			Student result = studentservice.getStudentById(id);
 			response.setMessage("All Student Lists");
 			response.setData(result);
 
@@ -46,7 +51,7 @@ public class StudentController {
 	public Response<Student> getAll() {
 		Response<Student> response = new Response<Student>();
 		try {
-			List<Student> result =service.getAll();
+			List<Student> result = studentservice.getAll();
 			response.setMessage("All Student Lists");
 			response.setData(result);
 
@@ -64,7 +69,22 @@ public class StudentController {
 	public Response<Student> create(@RequestBody Student student) {
 		Response<Student> response = new Response<Student>();
 		try {
-			response.setData(service.create(student));
+			/*
+			 * if(student.getStu_pp()== null) student.setStu_pp(defaultStaffPhoto);
+			 */
+			Student result = studentservice.create(student);
+			if (!result.getStu_email().isEmpty()) {
+				User user = new User();
+				user.setUserName(result.getStu_gender().equals("Male") ? "Mg " : "Ma " + result.getStu_name());
+				user.setEmail(result.getStu_email());
+				user.setPassword("P@ssw0rd");
+				user.setRole("STUDENT");
+				
+				userService.createUser(user);
+				
+			}
+			
+			response.setData(result);
 			response.setMessage("Success");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -81,11 +101,29 @@ public class StudentController {
 		Response<Student> response = new Response<Student>();
 
 		try {
-			Student existingData = service.getStudentById(student.getId());
+			Student existingData = studentservice.getStudentById(student.getId());
 			if (existingData != null) {
-				Student oldData = existingData;
-				oldData = student;
-				response.setData(service.create(oldData));
+				student.setModifyDate(new Date());				
+				if (!student.getStu_email().isEmpty()) {
+					User user = userService.findByEmail(existingData.getStu_email());
+					if(user != null) {
+						if(user.getEmail().equals(student.getStu_email())) {
+							user.setUserName(student.getStu_gender().equals("Male") ? "Mg " : "Ma " + student.getStu_name());
+							
+						}else {
+							user.setUserName(student.getStu_gender().equals("Male") ? "Mg " : "Ma " + student.getStu_name());
+							user.setEmail(student.getStu_email());
+						}
+					}else {
+						user = new User();
+						user.setUserName(student.getStu_gender().equals("Male") ? "Mg " : "Ma " + student.getStu_name());
+						user.setEmail(student.getStu_email());
+						user.setPassword("P@ssw0rd");
+						user.setRole("STUDENT");
+					}				
+					userService.createUser(user);
+				}
+				studentservice.create(student);
 				response.setMessage("Update Success");
 			} else
 				response.setMessage("No existing data");
@@ -104,12 +142,12 @@ public class StudentController {
 		Response<Student> response = new Response<Student>();
 
 		try {
-			Student existingData = service.getStudentById(id);
+			Student existingData = studentservice.getStudentById(id);
 			if (existingData != null) {
 				Student oldData = existingData;
 				oldData.setActiveStatus(ActiveStatus.DELETE);
 				oldData.setModifyDate(new Date());
-				response.setData(service.create(oldData));
+				response.setData(studentservice.create(oldData));
 				response.setMessage("Delete Success");
 			} else
 				response.setMessage("No existing data");
