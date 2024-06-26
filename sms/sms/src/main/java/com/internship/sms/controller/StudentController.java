@@ -1,19 +1,24 @@
 package com.internship.sms.controller;
 
+import java.io.IOException;
 import java.util.Date;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.common.Response;
+import com.internship.sms.common.Util;
 import com.internship.sms.entity.Student;
 import com.internship.sms.entity.User;
 import com.internship.sms.service.StudentService;
@@ -23,6 +28,16 @@ import com.internship.sms.service.UserService;
 @RequestMapping("/student/")
 @CrossOrigin(origins = "*")
 public class StudentController {
+	
+	@Value("${student.file.path.realPath}")
+	private String studentRealPath;
+
+	@Value("${student.file.path.relativePath}")
+	private String studentRelativePath;
+
+	@Value("${student.file.path.defaultPath}")
+	private String defaultStudentPhoto;
+	
 	@Autowired
 	StudentService studentservice;
 	
@@ -137,6 +152,21 @@ public class StudentController {
 		return response;
 	}
 
+	@RequestMapping(value = "uploadStudentFile", method = RequestMethod.POST, consumes = { "multipart/form-data" })
+	public Response<String> saveStudentFile(@RequestPart("uploadFile") MultipartFile uploadFile) throws IOException {
+		Response<String> response = new Response<String>();
+
+		if (uploadFile == null || uploadFile.isEmpty()) {
+			response.setStatus(false);
+			response.setData(defaultStudentPhoto);
+			response.setMessage("Invalid file upload");
+		} else {
+			String filePath = Util.uploadFile(uploadFile, studentRealPath, studentRelativePath);
+			response.setData(filePath);
+		}
+		return response;
+	}
+	
 	@RequestMapping(value = "delete", method = RequestMethod.DELETE)
 	public Response<Student> delete(@RequestParam Long id) {
 		Response<Student> response = new Response<Student>();
