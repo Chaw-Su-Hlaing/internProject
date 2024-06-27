@@ -8,6 +8,8 @@ import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +27,9 @@ public class Student  extends AbstractEntity implements Serializable{
 	
 	@Column(name="student_name")
 	private String stu_name;
+	
+	@Column(name="Roll_No")
+	private String stuRoll_no;
 	
 
 	@Column(name="student_email")
@@ -68,4 +73,9 @@ public class Student  extends AbstractEntity implements Serializable{
 
 	@Column(name="student_ferry")
 	private String stu_ferry;
+	
+	@ManyToOne
+	 @JoinColumn(name = "academic_id") 
+	private AcademicYear stu_AcademicYear;
 }
+
