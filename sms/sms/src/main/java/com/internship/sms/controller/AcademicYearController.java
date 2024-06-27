@@ -98,7 +98,7 @@ public class AcademicYearController {
 		
 		
 	}
-	@RequestMapping(value = "update", method = RequestMethod.GET)
+	@RequestMapping(value = "update", method = RequestMethod.POST)
 	public Response<AcademicYear> update(@RequestBody AcademicYear year){
 		Response<AcademicYear> response=new Response<>();
 		try {
