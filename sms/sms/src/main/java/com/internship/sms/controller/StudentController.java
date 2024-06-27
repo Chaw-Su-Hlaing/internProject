@@ -181,6 +181,11 @@ public class StudentController {
 				oldData.setModifyDate(new Date());
 				response.setData(studentservice.create(oldData));
 				response.setMessage("Delete Success");
+				User user=userService.findByEmail(existingData.getStu_email());
+				user.setActiveStatus(ActiveStatus.DELETE);
+				user.setModifyDate(new Date());
+				userService.createUser(user);
+
 			} else
 				response.setMessage("No existing data");
 		} catch (Exception e) {

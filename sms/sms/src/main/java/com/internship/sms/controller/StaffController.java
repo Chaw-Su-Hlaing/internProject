@@ -174,12 +174,18 @@ public class StaffController {
 			Staff existingData = staffService.getStaffById(id);
 			if (existingData != null) {
 				Staff oldData = existingData;
-				oldData = existingData;
 				oldData.setActiveStatus(ActiveStatus.DELETE);
 				oldData.setModifyDate(new Date());
 
 				response.setData(staffService.create(oldData));
 				response.setMessage("Delete success");
+				
+				User user=userService.findByEmail(existingData.getStaffEmail());
+				user.setActiveStatus(ActiveStatus.DELETE);
+				user.setModifyDate(new Date());
+				userService.createUser(user);
+
+				
 			} else {
 				response.setMessage("No existing data");
 			}
