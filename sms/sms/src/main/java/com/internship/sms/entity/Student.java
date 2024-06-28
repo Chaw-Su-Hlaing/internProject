@@ -5,11 +5,15 @@ package com.internship.sms.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,62 +24,64 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="Student")
-public class Student  extends AbstractEntity implements Serializable{
+@Table(name = "Student")
+public class Student extends AbstractEntity implements Serializable {
 
 	private static final long serialVersionUID = -5775636371997320818L;
-	
-	@Column(name="student_name")
+
+	@Column(name = "student_name")
 	private String stu_name;
-	
-	@Column(name="Roll_No")
+
+	@Column(name = "Roll_No")
 	private String stuRoll_no;
-	
 
-	@Column(name="student_email")
+	@Column(name = "student_email")
 	private String stu_email;
-	
 
-	@Column(name="student_phone")
+	@Column(name = "student_phone")
 	private String phone_no;
-	
 
-	@Column(name="student_currentAdd")
+	@Column(name = "student_currentAdd")
 	private String stu_currAddress;
 
-	@Column(name="student_HomeAdd")
+	@Column(name = "student_HomeAdd")
 	private String stu_homeAdd;
 
-	@Column(name="student_gender")
+	@Column(name = "student_gender")
 	private String stu_gender;
-	
-	@Column(name="student_DOB")
-	private Date stu_dob;
-	
 
-	@Column(name="student_Nrc")
+	@Column(name = "student_DOB")
+	private Date stu_dob;
+
+	@Column(name = "student_Nrc")
 	private String stu_nrc;
 
-	@Column(name="student_profile")
+	@Column(name = "student_profile")
 	private String stu_pp;
 
-	@Column(name="student_national")
+	@Column(name = "student_national")
 	private String stu_national;
 
-	@Column(name="student_Religion")
+	@Column(name = "student_Religion")
 	private String stu_religion;
 
-	@Column(name="student_relationStatus")
+	@Column(name = "student_relationStatus")
 	private String stu_relationshipStat;
 
-	@Column(name="student_hostel")
+	@Column(name = "student_hostel")
 	private String stu_hostel;
 
-	@Column(name="student_ferry")
+	@Column(name = "student_ferry")
 	private String stu_ferry;
-	
-	@ManyToOne
-	 @JoinColumn(name = "academic_id") 
-	private AcademicYear stu_AcademicYear;
-}
 
+	@ManyToOne
+	@JoinColumn(name = "academic_id")
+	private AcademicYear stu_AcademicYear;
+
+	@OneToMany
+	@JoinTable(name = "student_family_member", joinColumns = {
+			@JoinColumn(name = "student_id", referencedColumnName = "id",nullable = true) }, inverseJoinColumns = {
+				@JoinColumn(name = "family_member_id", referencedColumnName = "id",nullable = true) })
+	private List<FamilyMember> familyMembers;
+
+}
