@@ -19,14 +19,14 @@ public class StudentServiceImpl implements StudentService {
 	StudentRepository studentrepository;
 
 	@Override
-	
+
 	public Student getStudentById(Long id) {
 		// TODO Auto-generated method stub
 		Optional<Student> optional = studentrepository.findById(id);
 		if (optional.isPresent())
 			return optional.get();
 		else
-		return null;
+			return null;
 	}
 
 	@Override
@@ -58,6 +58,12 @@ public class StudentServiceImpl implements StudentService {
 	public List<Student> getAll() {
 		// TODO Auto-generated method stub
 		return studentrepository.getAllByActiveStatus(ActiveStatus.ACTIVE);
+	}
+
+	@Override
+	public Student getStudentInfoByEmail(String email) {
+		// TODO Auto-generated method stub
+		return studentrepository.getStudentInfoByEmail(ActiveStatus.ACTIVE, email);
 	}
 
 }

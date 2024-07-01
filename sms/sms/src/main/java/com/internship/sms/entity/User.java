@@ -8,6 +8,7 @@ import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,5 +37,8 @@ public class User extends AbstractEntity implements Serializable {
 
 	@Column(name = "role", length = 8)
 	private String role;
+	
+	@Transient
+	private String userProfile;
 
 }

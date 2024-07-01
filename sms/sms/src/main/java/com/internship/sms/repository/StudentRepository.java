@@ -11,8 +11,12 @@ import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.entity.Student;
 
 @Repository
-public interface StudentRepository extends JpaRepository<Student,Long> {
+public interface StudentRepository extends JpaRepository<Student, Long> {
+
 	@Query("select u from Student u where u.activeStatus = :activeStatus")
-	  List<Student> getAllByActiveStatus(@Param("activeStatus")ActiveStatus activeStatus);
-	
+	List<Student> getAllByActiveStatus(@Param("activeStatus") ActiveStatus activeStatus);
+
+	@Query("select u from Student u where u.activeStatus = :activeStatus and u.stu_email = :email")
+	Student getStudentInfoByEmail(@Param("activeStatus") ActiveStatus activeStatus, @Param("email") String email);
+
 }
