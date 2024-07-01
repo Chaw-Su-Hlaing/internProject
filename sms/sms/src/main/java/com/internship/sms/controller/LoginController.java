@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.internship.sms.common.Response;
+import com.internship.sms.entity.Staff;
 import com.internship.sms.entity.Student;
 import com.internship.sms.entity.User;
+import com.internship.sms.service.StaffService;
 import com.internship.sms.service.StudentService;
 import com.internship.sms.service.UserService;
 
@@ -29,6 +31,9 @@ public class LoginController {
 
 	@Autowired
 	StudentService studentService;
+	
+	@Autowired
+	StaffService staffService;
 
 	@RequestMapping(value = "checkUser", method = RequestMethod.POST)
 	public Response<User> checkUser(@RequestBody User usr) {
@@ -47,6 +52,10 @@ public class LoginController {
 						user.setUserProfile(student.getStu_pp());
 					break;
 				case "TEACHER":
+					Staff staff = staffService.getStaffInfoByEmail(user.getEmail());
+					if(staff != null) {
+						user.setUserProfile(staff.getStaffProfilePicture());
+					}
 					break;
 				case "ADMIN":
 					break;

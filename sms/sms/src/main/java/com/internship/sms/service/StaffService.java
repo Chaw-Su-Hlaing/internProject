@@ -16,6 +16,7 @@ public interface StaffService {
 	
 	public Staff update(Staff staff);
 	
+	public Staff getStaffInfoByEmail(String email);
+	
 	public  boolean delete(Staff staff);
-
 }

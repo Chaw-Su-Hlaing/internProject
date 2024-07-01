@@ -8,9 +8,13 @@ import org.springframework.stereotype.Repository;
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.entity.Staff;
 
+
 @Repository
 
 public interface StaffRepository extends JpaRepository<Staff, Long> {
 	@Query("select u from Staff u where u.activeStatus = :activeStatus")
 	List<Staff> getAllByActiveStatus(@Param("activeStatus") ActiveStatus activeStatus);
+	
+	@Query("select u from Staff u where u.activeStatus = :activeStatus and u.staffEmail = :email")
+	Staff getStudentInfoByEmail(@Param("activeStatus") ActiveStatus activeStatus, @Param("email") String email);
 }

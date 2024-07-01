@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.entity.Staff;
 import com.internship.sms.repository.StaffRepository;
@@ -59,6 +58,12 @@ public class StaffServiceImpl implements StaffService {
 				// TODO: handle exception
 				return false;
 			}
+	}
+
+	@Override
+	public Staff getStaffInfoByEmail(String email) {
+		// TODO Auto-generated method stub
+		return staffRepository.getStudentInfoByEmail(ActiveStatus.ACTIVE,  email);
 	}
 
 }
