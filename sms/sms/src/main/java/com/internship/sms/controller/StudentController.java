@@ -61,6 +61,25 @@ public class StudentController {
 		}
 		return response;
 	}
+	
+	
+	@RequestMapping(value="getStudentInfoByEmail", method=RequestMethod.GET)
+	public Response<Student> getStudentInfoByEmail(@RequestParam String email) {
+		Response<Student> response = new Response<Student>();
+		try {
+			Student student = studentservice.getStudentInfoByEmail(email);
+			response.setData(student);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Error Occurs");
+			return response;
+		}
+		return response;
+	}
+
+	
 
 	@RequestMapping(value = "getAll", method = RequestMethod.GET)
 	public Response<Student> getAll() {
