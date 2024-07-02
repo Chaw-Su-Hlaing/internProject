@@ -111,7 +111,7 @@ public class StudentController {
 				User user = new User();
 				user.setUserName((result.getStu_gender().equals("Male") ? "Mg " : "Ma " )+ result.getStu_name());
 				user.setEmail(result.getStu_email());
-				user.setPassword("P@ssw0rd");
+				user.setPassword("ucstg0student");
 				user.setRole("STUDENT");
 				
 				userService.createUser(user);
