@@ -6,8 +6,6 @@ package com.internship.sms.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;

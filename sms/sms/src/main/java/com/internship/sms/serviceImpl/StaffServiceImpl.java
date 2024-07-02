@@ -63,7 +63,7 @@ public class StaffServiceImpl implements StaffService {
 	@Override
 	public Staff getStaffInfoByEmail(String email) {
 		// TODO Auto-generated method stub
-		return staffRepository.getStudentInfoByEmail(ActiveStatus.ACTIVE,  email);
+		return staffRepository.getStaffInfoByEmail(ActiveStatus.ACTIVE,  email);
 	}
 
 }
