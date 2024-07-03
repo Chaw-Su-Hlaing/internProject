@@ -33,6 +33,7 @@ public class AcademicYearServiceImpl implements AcademicYearService {
 	@Override
 	public AcademicYear create(AcademicYear year) {
 		// TODO Auto-generated method stub
+
 		return academicYearRepository.save(year);
 	}
 
@@ -64,5 +65,14 @@ public class AcademicYearServiceImpl implements AcademicYearService {
 		else
 			return null;
 	}
+
+	@Override 
+	public AcademicYear checkStatus() { 
+		// TODO Auto-generated method 
+	  
+	  return academicYearRepository.CheckCurrentStatus(ActiveStatus.ACTIVE,true);
+	  
+	  
+	  }
 
 }
