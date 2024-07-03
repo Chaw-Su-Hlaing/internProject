@@ -22,4 +22,7 @@ public interface AcademicYearService {
 	
 	public boolean delete(AcademicYear year);
 
+	public AcademicYear checkStatus();
+
+	
 }

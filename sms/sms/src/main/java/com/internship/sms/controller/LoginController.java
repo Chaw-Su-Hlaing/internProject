@@ -50,7 +50,7 @@ public class LoginController {
 					Student student = studentService.getStudentInfoByEmail(user.getEmail());
 					if (student != null)
 						user.setUserProfile(student.getStu_pp());
-					break;
+					break; 
 				case "TEACHER":
 					Staff staff = staffService.getStaffInfoByEmail(user.getEmail());
 					if(staff != null) {
@@ -75,4 +75,36 @@ public class LoginController {
 		return response;
 	}
 
+	@RequestMapping(value = "checkPassword", method = RequestMethod.POST)
+	public Response<User> checkpass(@RequestBody User usr) {
+		Response<User> response = new Response<User>();
+		try {
+			User checkUser = userService.checkUser(usr.getEmail(), usr.getPassword());
+			response.setData(checkUser);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Internal server error");
+			return response;
+		}
+		return response;
+	}
+
+	@RequestMapping(value = "update", method = RequestMethod.POST)
+	public Response<User> changePass(@RequestBody User usr) {
+	Response <User> response=new Response<User>();
+	
+	User result=userService.findByEmail(usr.getEmail());
+	if(result!=null) {
+	result.setPassword(usr.getPassword());
+	 userService.createUser(result);
+	response.setData(result);
+	
+	}
+	
+	return response;
+	
+	}
+	
 }

@@ -50,18 +50,16 @@ public class AcademicYearController {
 		return response;
 
 	}
-	
-	@RequestMapping(value="getAll",method= RequestMethod.GET)
-	public Response<AcademicYear> getAll(){
-		Response <AcademicYear> response=new Response<>();
+
+	@RequestMapping(value = "getAll", method = RequestMethod.GET)
+	public Response<AcademicYear> getAll() {
+		Response<AcademicYear> response = new Response<>();
 		try {
-			List<AcademicYear> result=academicSer.getAllAcademicYear();
+			List<AcademicYear> result = academicSer.getAllAcademicYear();
 			response.setMessage("All user list");
 			response.setData(result);
 
-			
-			
-		}catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			response.setStatus(false);
@@ -69,41 +67,41 @@ public class AcademicYearController {
 			return response;
 		}
 		return response;
-		
+
 	}
-	
-	
-	
-	@RequestMapping(value="save",method=RequestMethod.POST)
-	public Response<AcademicYear> create(@RequestBody AcademicYear year)
-	{
-		Response <AcademicYear> response=new Response<AcademicYear>();
-		
-		
-		
+
+	@RequestMapping(value = "save", method = RequestMethod.POST)
+	public Response<AcademicYear> create(@RequestBody AcademicYear year) {
+		Response<AcademicYear> response = new Response<AcademicYear>();
+
 		try {
-		response.setData(academicSer.create(year));
-		response.setMessage("Success");
-		
-		}catch (Exception e) {
+			AcademicYear result = academicSer.checkStatus();
+			if (result != null) {
+				result.setCurrentStatus(false);
+		}
+
+			response.setData(academicSer.create(year));
+			response.setMessage("Success");
+
+		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			//throw new RuntimeException(e.toString());
+			// throw new RuntimeException(e.toString());
 			response.setStatus(false);
 			response.setMessage("Internal server error");
 			return response;
 		}
-		
+
 		return response;
-		
-		
+
 	}
+
 	@RequestMapping(value = "update", method = RequestMethod.POST)
-	public Response<AcademicYear> update(@RequestBody AcademicYear year){
-		Response<AcademicYear> response=new Response<>();
+	public Response<AcademicYear> update(@RequestBody AcademicYear year) {
+		Response<AcademicYear> response = new Response<>();
 		try {
 			AcademicYear existingData = academicSer.getAcademicYearById(year.getId());
-			if (existingData!=null) {
+			if (existingData != null) {
 				AcademicYear oldData = existingData;
 				oldData = year;
 				oldData.setModifyDate(new Date());
@@ -122,11 +120,8 @@ public class AcademicYearController {
 			return response;
 		}
 
-		
-		
-		
 		return response;
-		
+
 	}
 
 	@RequestMapping(value = "delete", method = RequestMethod.DELETE)
@@ -134,7 +129,7 @@ public class AcademicYearController {
 		Response<AcademicYear> response = new Response<>();
 		try {
 			AcademicYear existingData = academicSer.getAcademicYearById(id);
-			if (existingData!=null) {
+			if (existingData != null) {
 				AcademicYear oldData = existingData;
 				oldData.setActiveStatus(ActiveStatus.DELETE);
 				oldData.setModifyDate(new Date());
@@ -154,9 +149,5 @@ public class AcademicYearController {
 		return response;
 
 	}
-
-	
-	
-	
 
 }
