@@ -46,9 +46,6 @@ public class Staff extends AbstractEntity implements Serializable {
 	@Column(name = "nrc_no")
 	private String staffNrcNo;
 
-//	@Column(name="position",length=80)
-//	private String staffPosition;
-
 	@Column(name = "profile_picture")
 	private String staffProfilePicture;
 
@@ -60,5 +57,8 @@ public class Staff extends AbstractEntity implements Serializable {
 	
 	 @ManyToOne
 	 @JoinColumn(name = "position_id") private Position staffPosition;
+	 
+	 @ManyToOne
+	 @JoinColumn(name = "department_id") private Department staffDepartment;
 
 }
