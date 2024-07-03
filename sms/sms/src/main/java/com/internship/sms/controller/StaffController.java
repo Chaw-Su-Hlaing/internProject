@@ -61,6 +61,24 @@ public class StaffController {
 		}
 		return response;
 	}
+	
+	
+	@RequestMapping(value="getStaffInfoByEmail", method=RequestMethod.GET)
+	public Response<Staff> getStaffInfoByEmail(@RequestParam String email) {
+		Response<Staff> response = new Response<Staff>();
+		try {
+			Staff staff = staffService.getStaffInfoByEmail(email);
+			response.setData(staff);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Error Occurs");
+			return response;
+		}
+		return response;
+	}
+	
 
 	@RequestMapping(value = "getById", method = RequestMethod.GET)
 	public Response<Staff> getById(@RequestParam Long id) {

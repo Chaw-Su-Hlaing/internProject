@@ -16,5 +16,5 @@ public interface StaffRepository extends JpaRepository<Staff, Long> {
 	List<Staff> getAllByActiveStatus(@Param("activeStatus") ActiveStatus activeStatus);
 	
 	@Query("select u from Staff u where u.activeStatus = :activeStatus and u.staffEmail = :email")
-	Staff getStudentInfoByEmail(@Param("activeStatus") ActiveStatus activeStatus, @Param("email") String email);
+	Staff getStaffInfoByEmail(@Param("activeStatus") ActiveStatus activeStatus, @Param("email") String email);
 }
