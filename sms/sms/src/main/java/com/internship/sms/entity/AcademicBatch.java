@@ -1,0 +1,29 @@
+/**
+ * 
+ */
+package com.internship.sms.entity;
+
+import java.io.Serializable;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * 
+ */
+@Getter
+@Setter
+@Table(name="academicBatch")
+public class AcademicBatch extends AbstractEntity implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	@Column(name = "name")
+	private String name;
+
+}
