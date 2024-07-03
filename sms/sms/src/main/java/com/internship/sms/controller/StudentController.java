@@ -1,6 +1,7 @@
 package com.internship.sms.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import java.util.List;
@@ -19,8 +20,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.common.Response;
 import com.internship.sms.common.Util;
+import com.internship.sms.entity.FamilyMember;
 import com.internship.sms.entity.Student;
 import com.internship.sms.entity.User;
+import com.internship.sms.service.FamilyMemberService;
 import com.internship.sms.service.StudentService;
 import com.internship.sms.service.UserService;
 
@@ -43,6 +46,9 @@ public class StudentController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	FamilyMemberService familyMemberService;
 
 	@RequestMapping(value = "getById", method = RequestMethod.GET)
 	public Response<Student> getById(@RequestParam Long id) {
@@ -79,7 +85,6 @@ public class StudentController {
 		return response;
 	}
 
-	
 
 	@RequestMapping(value = "getAll", method = RequestMethod.GET)
 	public Response<Student> getAll() {
@@ -101,11 +106,17 @@ public class StudentController {
 
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	public Response<Student> create(@RequestBody Student student) {
+
 		Response<Student> response = new Response<Student>();
 		try {
 			/*
 			 * if(student.getStu_pp()== null) student.setStu_pp(defaultStaffPhoto);
 			 */
+			List<FamilyMember> members = new ArrayList<FamilyMember>();
+			if(!student.getFamilyMembers().isEmpty()) {
+				members = familyMemberService.saveFamilyList(student.getFamilyMembers());
+			}
+			student.setFamilyMembers(members);
 			Student result = studentservice.create(student);
 			if (!result.getStu_email().isEmpty()) {
 				User user = new User();
@@ -157,6 +168,12 @@ public class StudentController {
 					}				
 					userService.createUser(user);
 				}
+				
+				List<FamilyMember> members = new ArrayList<FamilyMember>();
+				if(!student.getFamilyMembers().isEmpty()) {
+					members = familyMemberService.saveFamilyList(student.getFamilyMembers());
+				}
+				student.setFamilyMembers(members);
 				studentservice.create(student);
 				response.setMessage("Update Success");
 			} else

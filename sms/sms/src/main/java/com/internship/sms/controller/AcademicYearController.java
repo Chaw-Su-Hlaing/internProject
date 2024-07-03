@@ -70,6 +70,23 @@ public class AcademicYearController {
 
 	}
 
+	@RequestMapping(value = "getCurrent", method = RequestMethod.GET)
+	public Response<AcademicYear> getCurrentStatus() {
+		Response<AcademicYear> response = new Response<>();
+		try {
+		AcademicYear result = academicSer.checkStatus();
+			response.setData(result);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Internal server error");
+			return response;
+		}
+		return response;
+
+	}
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	public Response<AcademicYear> create(@RequestBody AcademicYear year) {
 		Response<AcademicYear> response = new Response<AcademicYear>();
