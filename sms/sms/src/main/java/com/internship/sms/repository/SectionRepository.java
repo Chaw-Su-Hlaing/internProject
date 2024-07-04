@@ -14,6 +14,6 @@ public interface SectionRepository extends JpaRepository<Section, Long> {
 	@Query("select u from  Section u where u.activeStatus= :activeStatus")
 	List<Section> getAllByActiveStatus(@Param("activeStatus") ActiveStatus activeStatus);
 
-	@Query("select u from Section u where u.activeStatus= :activeStatus and u.name=:sectionName")
-	Section checkByName(@Param("activeStatus") ActiveStatus activeStatus, @Param("sectionName") String secName);
+	@Query("select u from Section u where u.name=:sectionName")
+	Section checkByName(@Param("sectionName") String secName);
 }
