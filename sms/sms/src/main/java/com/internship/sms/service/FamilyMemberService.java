@@ -17,6 +17,8 @@ public interface FamilyMemberService {
 	
 	public FamilyMember create(FamilyMember member);
 	
+	public List<FamilyMember> saveFamilyList(List<FamilyMember> members);
+	
 	public FamilyMember update(FamilyMember member);
 	
 	public boolean delete(FamilyMember member);

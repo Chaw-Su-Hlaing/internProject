@@ -60,4 +60,10 @@ public class FamilyMemberServiceIMpl implements FamilyMemberService{
 		}
 	}
 
+	@Override
+	public List<FamilyMember> saveFamilyList(List<FamilyMember> members) {
+		// TODO Auto-generated method stub
+		return familyMemberRepository.saveAll(members);
+	}
+
 }

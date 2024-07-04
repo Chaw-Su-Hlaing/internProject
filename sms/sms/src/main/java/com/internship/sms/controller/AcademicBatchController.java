@@ -16,113 +16,92 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.common.Response;
-import com.internship.sms.entity.AcademicYear;
-import com.internship.sms.service.AcademicYearService;
+import com.internship.sms.entity.AcademicBatch;
+import com.internship.sms.service.AcademicBatchService;
 
 /**
  * 
  */
-
 @RestController
-@RequestMapping("/academic_years/")
+@RequestMapping("/academiBatch/")
 @CrossOrigin(origins = "*")
-public class AcademicYearController {
+public class AcademicBatchController {
+
 	@Autowired
-	AcademicYearService academicSer;
+	AcademicBatchService academicBatchService;
 
 	@RequestMapping(value = "getById", method = RequestMethod.GET)
-	public Response<AcademicYear> getById(@RequestParam Long id) {
-		Response<AcademicYear> response = new Response<>();
-
+	public Response<AcademicBatch> getById(@RequestParam Long id) {
+		Response<AcademicBatch> response = new Response<AcademicBatch>();
 		try {
-			AcademicYear result = academicSer.getAcademicYearById(id);
-			response.setMessage("All user list");
+			AcademicBatch result = academicBatchService.getAcademicBatchById(id);
+			response.setMessage("All Academic Batch lists");
 			response.setData(result);
 		} catch (Exception e) {
 			// TODO: handle exception
+
 			e.printStackTrace();
 			response.setStatus(false);
-			response.setMessage("Internal server error");
+			response.setMessage("Error Occur");
 			return response;
-
 		}
-
 		return response;
-
 	}
 
 	@RequestMapping(value = "getAll", method = RequestMethod.GET)
-	public Response<AcademicYear> getAll() {
-		Response<AcademicYear> response = new Response<>();
+	public Response<AcademicBatch> getAll() {
+		Response<AcademicBatch> response = new Response<AcademicBatch>();
 		try {
-			List<AcademicYear> result = academicSer.getAllAcademicYear();
-			response.setMessage("All user list");
+			List<AcademicBatch> result = academicBatchService.getAll();
+			response.setMessage("All Academic Batch lists");
 			response.setData(result);
-
 		} catch (Exception e) {
 			// TODO: handle exception
+
 			e.printStackTrace();
 			response.setStatus(false);
-			response.setMessage("Internal server error");
+			response.setMessage("Error Occur");
 			return response;
 		}
 		return response;
-
 	}
-
-	@RequestMapping(value = "getCurrent", method = RequestMethod.GET)
-	public Response<AcademicYear> getCurrentStatus() {
-		Response<AcademicYear> response = new Response<>();
-		try {
-		AcademicYear result = academicSer.checkStatus();
-			response.setData(result);
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			response.setStatus(false);
-			response.setMessage("Internal server error");
-			return response;
-		}
-		return response;
-
-	}
+	
 	@RequestMapping(value = "save", method = RequestMethod.POST)
-	public Response<AcademicYear> create(@RequestBody AcademicYear year) {
-		Response<AcademicYear> response = new Response<AcademicYear>();
-
+	public Response<AcademicBatch> create(@RequestBody AcademicBatch academicBatch) {
+		Response<AcademicBatch> response = new Response<AcademicBatch>();
 		try {
-			AcademicYear result = academicSer.checkStatus();
-			if (result != null) {
-				result.setCurrentStatus(false);
-		}
-
-			response.setData(academicSer.create(year));
-			response.setMessage("Success");
+			/* Check to avoid same department */
+			AcademicBatch checkAcademicBatch = academicBatchService.checkByName(academicBatch.getName());
+			if(checkAcademicBatch != null) {
+				response.setStatus(false);
+				response.setMessage("Existing AcademicBatch Name.");
+			}else {
+				response.setData(academicBatchService.create(academicBatch));
+				response.setMessage("Success");
+			}
+			/* End of Check to avoid same department */
+			
 
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			// throw new RuntimeException(e.toString());
 			response.setStatus(false);
-			response.setMessage("Internal server error");
+			response.setMessage("Error occur");
 			return response;
 		}
-
 		return response;
-
 	}
 
 	@RequestMapping(value = "update", method = RequestMethod.POST)
-	public Response<AcademicYear> update(@RequestBody AcademicYear year) {
-		Response<AcademicYear> response = new Response<>();
+	public Response<AcademicBatch> update(@RequestBody AcademicBatch academicBatch) {
+		Response<AcademicBatch> response = new Response<AcademicBatch>();
 		try {
-			AcademicYear existingData = academicSer.getAcademicYearById(year.getId());
+			AcademicBatch existingData = academicBatchService.getAcademicBatchById(academicBatch.getId());
 			if (existingData != null) {
-				AcademicYear oldData = existingData;
-				oldData = year;
+				AcademicBatch oldData = existingData;
+				oldData = academicBatch;
 				oldData.setModifyDate(new Date());
-				response.setData(academicSer.create(oldData));
+				response.setData(academicBatchService.create(oldData));
 				response.setMessage("Update Success");
 
 			} else {
@@ -136,21 +115,20 @@ public class AcademicYearController {
 			response.setMessage("Error occur");
 			return response;
 		}
-
 		return response;
 
 	}
 
 	@RequestMapping(value = "delete", method = RequestMethod.DELETE)
-	public Response<AcademicYear> delete(@RequestParam Long id) {
-		Response<AcademicYear> response = new Response<>();
+	public Response<AcademicBatch> delete(@RequestParam Long id) {
+		Response<AcademicBatch> response = new Response<AcademicBatch>();
 		try {
-			AcademicYear existingData = academicSer.getAcademicYearById(id);
+			AcademicBatch existingData = academicBatchService.getAcademicBatchById(id);
 			if (existingData != null) {
-				AcademicYear oldData = existingData;
+				AcademicBatch oldData = existingData;
 				oldData.setActiveStatus(ActiveStatus.DELETE);
 				oldData.setModifyDate(new Date());
-				response.setData(academicSer.create(oldData));
+				response.setData(academicBatchService.create(oldData));
 				response.setMessage("Delete Success");
 			} else {
 				response.setMessage("No existing data");
