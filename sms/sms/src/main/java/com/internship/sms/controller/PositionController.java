@@ -68,20 +68,19 @@ public class PositionController {
 	public Response<Position> create(@RequestBody Position position) {
 
 		Response<Position> response = new Response<Position>();
-		
+
 		try {
 			/* Check to avoid same position */
-			Position checkpos=positionService.checkByName(position.getName());
-			if(checkpos!=null) {
+			Position checkpos = positionService.checkByName(position.getName());
+			if (checkpos != null) {
 				response.setStatus(false);
-				response.setMessage("Existing Position Name");	
-			}else
-			{
+				response.setMessage("Existing Position Name");
+			} else {
 				response.setData(positionService.create(position));
 				response.setMessage("Success");
 			}
 			/* End of Check to avoid same position */
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -123,7 +122,6 @@ public class PositionController {
 			if (existingData != null) {
 				Position oldData = existingData;
 				oldData.setActiveStatus(ActiveStatus.DELETE);
-				;
 				oldData.setModifyDate(new Date());
 				response.setData(positionService.create(oldData));
 				response.setMessage("Delete Success");
