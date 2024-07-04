@@ -81,5 +81,11 @@ public class Student extends AbstractEntity implements Serializable {
 			@JoinColumn(name = "student_id", referencedColumnName = "id",nullable = true) }, inverseJoinColumns = {
 				@JoinColumn(name = "family_member_id", referencedColumnName = "id",nullable = true) })
 	private List<FamilyMember> familyMembers;
+	
+	@ManyToOne
+	@JoinColumn(name = "batch_id")
+	private AcademicBatch studentBatch;
+
+	
 
 }
