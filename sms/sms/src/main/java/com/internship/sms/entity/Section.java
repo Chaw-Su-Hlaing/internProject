@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,8 +22,16 @@ public class Section extends AbstractEntity implements Serializable {
 	/**
 	 * 
 	 */
-
 	@Column(name = "name")
 	private String name;
 
+	@Column(name = "major")
+	private String classMajor;
+
+	@Column(name = "No_of_student")
+	private String noOfStudent;
+
+	@ManyToOne
+	@JoinColumn(name = "academicBatch_id")
+	private AcademicBatch academicBatch;
 }

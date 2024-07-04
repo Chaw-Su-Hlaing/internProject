@@ -74,7 +74,7 @@ public class Student extends AbstractEntity implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "academic_id")
-	private AcademicYear stu_AcademicYear;
+	private AcademicYear stuAcademicYear;
 
 	@OneToMany
 	@JoinTable(name = "student_family_member", joinColumns = {
