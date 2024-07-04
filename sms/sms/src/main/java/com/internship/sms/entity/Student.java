@@ -36,6 +36,9 @@ public class Student extends AbstractEntity implements Serializable {
 	@Column(name = "student_email")
 	private String stu_email;
 
+	@Column(name = "student_major")
+	private String stu_major;
+
 	@Column(name = "student_phone")
 	private String phone_no;
 
@@ -78,14 +81,12 @@ public class Student extends AbstractEntity implements Serializable {
 
 	@OneToMany
 	@JoinTable(name = "student_family_member", joinColumns = {
-			@JoinColumn(name = "student_id", referencedColumnName = "id",nullable = true) }, inverseJoinColumns = {
-				@JoinColumn(name = "family_member_id", referencedColumnName = "id",nullable = true) })
+			@JoinColumn(name = "student_id", referencedColumnName = "id", nullable = true) }, inverseJoinColumns = {
+					@JoinColumn(name = "family_member_id", referencedColumnName = "id", nullable = true) })
 	private List<FamilyMember> familyMembers;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "batch_id")
 	private AcademicBatch studentBatch;
-
-	
 
 }
