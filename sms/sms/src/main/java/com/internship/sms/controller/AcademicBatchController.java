@@ -23,7 +23,7 @@ import com.internship.sms.service.AcademicBatchService;
  * 
  */
 @RestController
-@RequestMapping("/academiBatch/")
+@RequestMapping("/academicBatch/")
 @CrossOrigin(origins = "*")
 public class AcademicBatchController {
 
