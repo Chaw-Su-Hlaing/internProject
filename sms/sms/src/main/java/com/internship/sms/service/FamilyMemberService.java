@@ -22,5 +22,7 @@ public interface FamilyMemberService {
 	public FamilyMember update(FamilyMember member);
 	
 	public boolean delete(FamilyMember member);
+	
+	public boolean deleteAll(List<FamilyMember> members);
 
 }
