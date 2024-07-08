@@ -6,6 +6,8 @@ package com.internship.sms.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -75,7 +77,7 @@ public class Student extends AbstractEntity implements Serializable {
 	@Column(name = "student_ferry")
 	private String stu_ferry;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "academic_id")
 	private AcademicYear stuAcademicYear;
 

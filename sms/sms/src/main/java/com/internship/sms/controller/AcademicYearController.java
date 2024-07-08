@@ -74,7 +74,7 @@ public class AcademicYearController {
 	public Response<AcademicYear> getCurrentStatus() {
 		Response<AcademicYear> response = new Response<>();
 		try {
-		AcademicYear result = academicSer.checkStatus();
+			AcademicYear result = academicSer.checkStatus();
 			response.setData(result);
 
 		} catch (Exception e) {
@@ -87,6 +87,7 @@ public class AcademicYearController {
 		return response;
 
 	}
+
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	public Response<AcademicYear> create(@RequestBody AcademicYear year) {
 		Response<AcademicYear> response = new Response<AcademicYear>();
@@ -95,8 +96,9 @@ public class AcademicYearController {
 			AcademicYear result = academicSer.checkStatus();
 			if (result != null) {
 				result.setCurrentStatus(false);
-		}
+			}
 
+			year.setCurrentStatus(true);
 			response.setData(academicSer.create(year));
 			response.setMessage("Success");
 
