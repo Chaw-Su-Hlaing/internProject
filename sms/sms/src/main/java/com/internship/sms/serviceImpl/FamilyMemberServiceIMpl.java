@@ -13,12 +13,15 @@ import com.internship.sms.entity.FamilyMember;
 import com.internship.sms.repository.FamilyMemberRepository;
 import com.internship.sms.service.FamilyMemberService;
 
+import jakarta.transaction.Transactional;
+
 /**
  * 
  */
 @Service
-public class FamilyMemberServiceIMpl implements FamilyMemberService{
-	
+@Transactional
+public class FamilyMemberServiceIMpl implements FamilyMemberService {
+
 	@Autowired
 	FamilyMemberRepository familyMemberRepository;
 
@@ -64,6 +67,20 @@ public class FamilyMemberServiceIMpl implements FamilyMemberService{
 	public List<FamilyMember> saveFamilyList(List<FamilyMember> members) {
 		// TODO Auto-generated method stub
 		return familyMemberRepository.saveAll(members);
+	}
+
+	@Override
+	public boolean deleteAll(List<FamilyMember> members) {
+		// TODO Auto-generated method stub
+		try {
+			familyMemberRepository.deleteAll(members);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 	}
 
 }

@@ -33,7 +33,7 @@ public class Student extends AbstractEntity implements Serializable {
 	private String stu_name;
 
 	@Column(name = "Roll_No")
-	private String stuRoll_no;
+	private Integer stuRoll_no;
 
 	@Column(name = "student_email")
 	private String stu_email;

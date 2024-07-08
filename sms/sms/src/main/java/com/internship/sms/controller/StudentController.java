@@ -108,11 +108,12 @@ public class StudentController {
 	public Response<Student> create(@RequestBody Student student) {
 
 		Response<Student> response = new Response<Student>();
+		List<FamilyMember> members = new ArrayList<FamilyMember>();
 		try {
 			/*
 			 * if(student.getStu_pp()== null) student.setStu_pp(defaultStaffPhoto);
 			 */
-			List<FamilyMember> members = new ArrayList<FamilyMember>();
+			
 			if(!student.getFamilyMembers().isEmpty()) {
 				members = familyMemberService.saveFamilyList(student.getFamilyMembers());
 			}
@@ -122,7 +123,7 @@ public class StudentController {
 				User user = new User();
 				user.setUserName((result.getStu_gender().equals("Male") ? "Mg " : "Ma " )+ result.getStu_name());
 				user.setEmail(result.getStu_email());
-				user.setPassword("ucstg0student");
+				user.setPassword("cuStudent");
 				user.setRole("STUDENT");
 				
 				userService.createUser(user);
@@ -132,8 +133,9 @@ public class StudentController {
 			response.setData(result);
 			response.setMessage("Success");
 		} catch (Exception e) {
-			// TODO: handle exception
+			// TODO: handle exception			
 			e.printStackTrace();
+			familyMemberService.deleteAll(members);
 			response.setStatus(false);
 			response.setMessage("Error Occurs");
 			return response;
