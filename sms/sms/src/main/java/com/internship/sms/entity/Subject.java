@@ -7,6 +7,8 @@ import java.io.Serializable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,5 +35,14 @@ public class Subject extends AbstractEntity implements Serializable {
 	@Column(name="module_no")
 	private String moduleNo;
 	
+	@Column(name="major")
+	private String major;
 	
+	@ManyToOne
+	@JoinColumn(name = "batch_id")
+	private AcademicBatch SubjectBatch;
+	
+	@ManyToOne
+	@JoinColumn(name = "sem_id")
+	private Semester SubjectSem;
 }
