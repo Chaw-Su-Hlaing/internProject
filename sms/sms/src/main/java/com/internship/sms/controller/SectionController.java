@@ -124,4 +124,19 @@ public class SectionController {
 		}
 		return response;
 	}
+
+	@RequestMapping(value = "getSectionList", method = RequestMethod.POST)
+	public Response<Section> getSectionList(@RequestBody Section section) {
+		Response<Section> response = new Response<>();
+		try {
+			List<Section> result = sectionService.getSectionList(section.getAcademicBatch(), section.getMajor());
+			response.setData(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("internal server error occur");
+			return response;
+		}
+		return response;
+	}
 }

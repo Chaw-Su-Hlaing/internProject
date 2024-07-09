@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.internship.sms.common.ActiveStatus;
+import com.internship.sms.entity.AcademicBatch;
 import com.internship.sms.entity.Section;
 
 @Repository
@@ -16,4 +17,7 @@ public interface SectionRepository extends JpaRepository<Section, Long> {
 
 	@Query("select u from Section u where u.name=:sectionName")
 	Section checkByName(@Param("sectionName") String secName);
+
+	@Query("select u from  Section u where u.activeStatus= :activeStatus AND u.academicBatch= :batch AND u.major=:major")
+	List<Section> getSectionList(@Param("batch") AcademicBatch academicBatch, @Param("major") String major);
 }

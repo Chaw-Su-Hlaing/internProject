@@ -1,7 +1,7 @@
 package com.internship.sms.service;
 
 import java.util.List;
-
+import com.internship.sms.entity.AcademicBatch;
 import com.internship.sms.entity.Section;
 
 public interface SectionService {
@@ -16,6 +16,7 @@ public interface SectionService {
 
 	public boolean delete(Section section);
 
-	public Section checkByName(String name);
+	public List<Section> getSectionList(AcademicBatch batch, String major);
+
 
 }

@@ -2,6 +2,7 @@ package com.internship.sms.entity;
 
 import java.io.Serializable;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -26,14 +27,13 @@ public class Section extends AbstractEntity implements Serializable {
 	private String name;
 
 	@Column(name = "major")
-	private String classMajor;
+	private String major;
 
 	@Column(name = "No_of_student")
 	private String noOfStudent;
 
 	
 	  @ManyToOne
-	  
 	  @JoinColumn(name = "academicBatch_id") private AcademicBatch academicBatch;
 	 
 }

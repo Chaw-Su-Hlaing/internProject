@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.internship.sms.common.ActiveStatus;
+import com.internship.sms.entity.AcademicBatch;
 import com.internship.sms.entity.Section;
 import com.internship.sms.repository.SectionRepository;
 import com.internship.sms.service.SectionService;
@@ -58,10 +59,11 @@ public class SectionServiceImpl implements SectionService {
 	}
 
 	@Override
-	public Section checkByName(String name) {
+	public List<Section> getSectionList( AcademicBatch batch, String major) {
 		// TODO Auto-generated method stub
-		Section result = sectionRepository.checkByName(name);
-		return result;
+		return sectionRepository.findAll();
 	}
+
+
 
 }
