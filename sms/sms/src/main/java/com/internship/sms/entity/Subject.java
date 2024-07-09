@@ -40,9 +40,9 @@ public class Subject extends AbstractEntity implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "batch_id")
-	private AcademicBatch SubjectBatch;
+	private AcademicBatch subjectBatch;
 	
 	@ManyToOne
 	@JoinColumn(name = "sem_id")
-	private Semester SubjectSem;
+	private Semester subjectSem;
 }

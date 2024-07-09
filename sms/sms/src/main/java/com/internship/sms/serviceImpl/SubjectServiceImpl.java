@@ -64,4 +64,9 @@ public class SubjectServiceImpl implements SubjectService{
 		}
 	}
 
+	/*
+	 * @Override public List<Subject> getSubByBatch(AcademicBatch batch, String
+	 * major, Semester semester) { // TODO Auto-generated method stub return
+	 * subjectRepository.getSubByBatch(batch, major, semester); }
+	 */
 }
