@@ -126,6 +126,9 @@ public class StaffController {
 				user.setUserName((result.getStaffGender().equals("Male") ? "U " : "Daw " )+ result.getStaffName());
 				user.setEmail(result.getStaffEmail());
 				user.setPassword("P@ssw0rd");
+				if (staff.getStaffDepartment().getName().equals("STUDENT AFFAIR")) {
+					user.setRole("ADMIN");
+				}
 				user.setRole("TEACHER");
 				
 				userService.createUser(user);
