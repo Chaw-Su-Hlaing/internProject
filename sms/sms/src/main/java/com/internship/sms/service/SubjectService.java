@@ -4,6 +4,8 @@
 package com.internship.sms.service;
 
 import java.util.List;
+
+import com.internship.sms.dto.FilterDTO;
 import com.internship.sms.entity.Subject;
 
 /**
@@ -21,5 +23,5 @@ public interface SubjectService {
 	
 	public boolean delete(Subject subject);
 	
-//	public List<Subject> getSubByBatch(AcademicBatch batch,String major,Semester semester);	
+	public List<Subject> getSubByBatch(FilterDTO dto);	
 }

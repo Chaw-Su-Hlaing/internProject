@@ -10,18 +10,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.internship.sms.common.ActiveStatus;
+import com.internship.sms.dto.FilterDTO;
 import com.internship.sms.entity.Subject;
 import com.internship.sms.repository.SubjectRepository;
 import com.internship.sms.service.SubjectService;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 
 /**
  * 
  */
 @Service
-public class SubjectServiceImpl implements SubjectService{
-	
+public class SubjectServiceImpl implements SubjectService {
+
 	@Autowired
 	SubjectRepository subjectRepository;
+
+	@Autowired
+	EntityManager entityManager;
 
 	@Override
 	public List<Subject> getAll() {
@@ -32,12 +43,11 @@ public class SubjectServiceImpl implements SubjectService{
 	@Override
 	public Subject getSubjectById(Long id) {
 		// TODO Auto-generated method stub
-		Optional<Subject> optional= subjectRepository.findById(id);
-		if(optional.isPresent()) {
+		Optional<Subject> optional = subjectRepository.findById(id);
+		if (optional.isPresent()) {
 			return optional.get();
-		}
-			else
-				return null;
+		} else
+			return null;
 	}
 
 	@Override
@@ -64,9 +74,38 @@ public class SubjectServiceImpl implements SubjectService{
 		}
 	}
 
-	/*
-	 * @Override public List<Subject> getSubByBatch(AcademicBatch batch, String
-	 * major, Semester semester) { // TODO Auto-generated method stub return
-	 * subjectRepository.getSubByBatch(batch, major, semester); }
-	 */
+	@Override
+	public List<Subject> getSubByBatch(FilterDTO dto) {
+		// TODO Auto-generated method stub return
+		try {
+			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Subject> query = builder.createQuery(Subject.class);
+			Root<Subject> root = query.from(Subject.class);
+			query.select(root);
+
+			Predicate predicate = builder.equal(root.get("activeStatus"), ActiveStatus.ACTIVE);
+			if (dto.getBatchId() != null) {
+				predicate = builder.and(predicate, builder.equal(root.get("subjectBatch").get("id"), dto.getBatchId()));
+			}
+			if (dto.getSemesterId() != null) {
+				predicate = builder.and(predicate,
+						builder.equal(root.get("subjectSem").get("id"), dto.getSemesterId()));
+			}
+			if (dto.getMajor() != null && !dto.getMajor().isEmpty()) {
+				predicate = builder.and(predicate, builder.equal(root.get("major"), dto.getMajor()));
+			}
+			query.where(predicate);
+			TypedQuery<Subject> typedQuery = entityManager.createQuery(query);
+			
+			List<Subject> subjects = typedQuery.getResultList();
+
+			return subjects;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+
+		}
+		return null;
+	}
+
 }

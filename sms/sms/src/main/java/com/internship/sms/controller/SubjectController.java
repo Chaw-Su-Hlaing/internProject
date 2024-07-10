@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.common.Response;
+import com.internship.sms.dto.FilterDTO;
 import com.internship.sms.entity.Subject;
 import com.internship.sms.service.SubjectService;
 
@@ -64,19 +65,20 @@ public class SubjectController {
 		}
 		return response;
 	}
-	
-	/*
-	 * @RequestMapping(value = "getSubByBatch", method = RequestMethod.GET) public
-	 * Response<Subject> getSubByBatch(@RequestBody Subject subject) {
-	 * Response<Subject> response = new Response<Subject>(); try { Subject data =
-	 * subjectService.getSubjectById(subject.getId()); List<Subject>
-	 * result=subjectService.getSubByBatch(data.getSubjectBatch(),
-	 * data.getMajor(),data.getSubjectSem()); response.setData(result);
-	 * 
-	 * } catch (Exception e) { // TODO: handle exception e.printStackTrace();
-	 * response.setStatus(false); response.setMessage("Error Occurs"); return
-	 * response; } return response; }
-	 */
+
+	@RequestMapping(value = "getSubByBatch", method = RequestMethod.POST)
+	public Response<Subject> getSubByBatch(@RequestBody FilterDTO dto) {
+		Response<Subject> response = new Response<Subject>();
+		try {			
+			List<Subject> result =subjectService.getSubByBatch(dto);		
+			response.setData(result);
+		} catch (Exception e) { // TODO: handle exception e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Error Occurs");
+			return response;
+		}
+		return response;
+	}
 
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	public Response<Subject> create(@RequestBody Subject subject) {
