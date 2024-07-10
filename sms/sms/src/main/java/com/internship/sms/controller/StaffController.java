@@ -61,9 +61,8 @@ public class StaffController {
 		}
 		return response;
 	}
-	
-	
-	@RequestMapping(value="getStaffInfoByEmail", method=RequestMethod.GET)
+
+	@RequestMapping(value = "getStaffInfoByEmail", method = RequestMethod.GET)
 	public Response<Staff> getStaffInfoByEmail(@RequestParam String email) {
 		Response<Staff> response = new Response<Staff>();
 		try {
@@ -78,7 +77,6 @@ public class StaffController {
 		}
 		return response;
 	}
-	
 
 	@RequestMapping(value = "getById", method = RequestMethod.GET)
 	public Response<Staff> getById(@RequestParam Long id) {
@@ -123,16 +121,18 @@ public class StaffController {
 			Staff result = staffService.create(staff);
 			if (!result.getStaffEmail().isEmpty()) {
 				User user = new User();
-				user.setUserName((result.getStaffGender().equals("Male") ? "U " : "Daw " )+ result.getStaffName());
+				user.setUserName((result.getStaffGender().equals("Male") ? "U " : "Daw ") + result.getStaffName());
 				user.setEmail(result.getStaffEmail());
-				user.setPassword("P@ssw0rd");
+				
 				if (staff.getStaffDepartment().getName().equals("STUDENT AFFAIR")) {
 					user.setRole("ADMIN");
+					user.setPassword("ucs@dm1n");
+				} else {
+					user.setRole("TEACHER");
+					user.setPassword("P@ssw0rd");
 				}
-				user.setRole("TEACHER");
-				
 				userService.createUser(user);
-				
+
 			}
 			response.setData(result);
 			response.setMessage("create success)");
@@ -153,24 +153,27 @@ public class StaffController {
 		try {
 			Staff existingData = staffService.getStaffById(staff.getId());
 			if (existingData != null) {
-				staff.setModifyDate(new Date());				
+				staff.setModifyDate(new Date());
 				if (!staff.getStaffEmail().isEmpty()) {
 					User user = userService.findByEmail(existingData.getStaffEmail());
-					if(user != null) {
-						if(user.getEmail().equals(staff.getStaffEmail())) {
-							user.setUserName((staff.getStaffGender().equals("Male") ? "U " : "Daw ") + staff.getStaffName());
-							
-						}else {
-							user.setUserName((staff.getStaffGender().equals("Male") ? "U " : "Daw ") + staff.getStaffName());
+					if (user != null) {
+						if (user.getEmail().equals(staff.getStaffEmail())) {
+							user.setUserName(
+									(staff.getStaffGender().equals("Male") ? "U " : "Daw ") + staff.getStaffName());
+
+						} else {
+							user.setUserName(
+									(staff.getStaffGender().equals("Male") ? "U " : "Daw ") + staff.getStaffName());
 							user.setEmail(staff.getStaffEmail());
 						}
-					}else {
+					} else {
 						user = new User();
-						user.setUserName((staff.getStaffGender().equals("Male") ? "U " : "Daw ") + staff.getStaffName());
+						user.setUserName(
+								(staff.getStaffGender().equals("Male") ? "U " : "Daw ") + staff.getStaffName());
 						user.setEmail(staff.getStaffEmail());
 						user.setPassword("P@ssw0rd");
 						user.setRole("TEACHER");
-					}				
+					}
 					userService.createUser(user);
 				}
 				staffService.create(staff);
@@ -200,13 +203,12 @@ public class StaffController {
 
 				response.setData(staffService.create(oldData));
 				response.setMessage("Delete success");
-				
-				User user=userService.findByEmail(existingData.getStaffEmail());
+
+				User user = userService.findByEmail(existingData.getStaffEmail());
 				user.setActiveStatus(ActiveStatus.DELETE);
 				user.setModifyDate(new Date());
 				userService.createUser(user);
 
-				
 			} else {
 				response.setMessage("No existing data");
 			}
