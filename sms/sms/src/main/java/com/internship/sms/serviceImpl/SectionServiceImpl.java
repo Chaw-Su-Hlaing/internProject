@@ -1,22 +1,31 @@
 package com.internship.sms.serviceImpl;
 
 import java.util.List;
-
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.internship.sms.common.ActiveStatus;
-import com.internship.sms.entity.AcademicBatch;
+import com.internship.sms.dto.FilterDTO;
 import com.internship.sms.entity.Section;
 import com.internship.sms.repository.SectionRepository;
 import com.internship.sms.service.SectionService;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 
 @Service
 public class SectionServiceImpl implements SectionService {
 
 	@Autowired
 	SectionRepository sectionRepository;
+	@Autowired
+	EntityManager entityManager;
 
 	@Override
 	public List<Section> getAllSection() {
@@ -59,11 +68,30 @@ public class SectionServiceImpl implements SectionService {
 	}
 
 	@Override
-	public List<Section> getSectionList( AcademicBatch batch, String major) {
+	public List<Section> getSectionList(FilterDTO dto) {
 		// TODO Auto-generated method stub
-		return sectionRepository.findAll();
+		try {
+			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Section> query = builder.createQuery(Section.class);
+			Root<Section> root = query.from(Section.class);
+			query.select(root);
+			Predicate predicate = builder.equal(root.get("activeStatus"), ActiveStatus.ACTIVE);
+			if (dto.getBatchId() != null) {
+				predicate = builder.and(predicate, builder.equal(root.get("academicBatch").get("id"), dto.getBatchId()));
+			}
+			if (dto.getMajor() != null && !dto.getMajor().isEmpty()) {
+				predicate = builder.and(predicate, builder.equal(root.get("major"), dto.getMajor()));
+			}
+			query.where(predicate);
+			TypedQuery<Section> typeQuery=entityManager.createQuery(query);
+			List<Section> sections=typeQuery.getResultList();
+			return sections;
+			} catch (Exception e) {
+			// TODO: handle exception
+				e.printStackTrace();
+		}
+		return null;
+		
 	}
-
-
 
 }

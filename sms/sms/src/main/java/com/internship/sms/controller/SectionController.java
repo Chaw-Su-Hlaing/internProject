@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.common.Response;
+import com.internship.sms.dto.FilterDTO;
 import com.internship.sms.entity.Section;
 import com.internship.sms.service.SectionService;
 
@@ -126,10 +126,10 @@ public class SectionController {
 	}
 
 	@RequestMapping(value = "getSectionList", method = RequestMethod.POST)
-	public Response<Section> getSectionList(@RequestBody Section section) {
+	public Response<Section> getSectionList(@RequestBody FilterDTO section) {
 		Response<Section> response = new Response<>();
 		try {
-			List<Section> result = sectionService.getSectionList(section.getAcademicBatch(), section.getMajor());
+			List<Section> result = sectionService.getSectionList(section);
 			response.setData(result);
 		} catch (Exception e) {
 			e.printStackTrace();

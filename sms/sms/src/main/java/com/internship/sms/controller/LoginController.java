@@ -58,6 +58,10 @@ public class LoginController {
 					}
 					break;
 				case "ADMIN":
+					Staff admin = staffService.getStaffInfoByEmail(user.getEmail());
+					if(admin != null) {
+						user.setUserProfile(admin.getStaffProfilePicture());
+					}
 					break;
 				}
 				response.setData(user);
