@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.common.Response;
 import com.internship.sms.common.Util;
+import com.internship.sms.dto.FilterDTO;
 import com.internship.sms.entity.FamilyMember;
 import com.internship.sms.entity.Student;
 import com.internship.sms.entity.User;
@@ -31,7 +32,7 @@ import com.internship.sms.service.UserService;
 @RequestMapping("/student/")
 @CrossOrigin(origins = "*")
 public class StudentController {
-	
+
 	@Value("${student.file.path.realPath}")
 	private String studentRealPath;
 
@@ -40,13 +41,13 @@ public class StudentController {
 
 	@Value("${student.file.path.defaultPath}")
 	private String defaultStudentPhoto;
-	
+
 	@Autowired
 	StudentService studentservice;
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	FamilyMemberService familyMemberService;
 
@@ -67,9 +68,8 @@ public class StudentController {
 		}
 		return response;
 	}
-	
-	
-	@RequestMapping(value="getStudentInfoByEmail", method=RequestMethod.GET)
+
+	@RequestMapping(value = "getStudentInfoByEmail", method = RequestMethod.GET)
 	public Response<Student> getStudentInfoByEmail(@RequestParam String email) {
 		Response<Student> response = new Response<Student>();
 		try {
@@ -84,7 +84,6 @@ public class StudentController {
 		}
 		return response;
 	}
-
 
 	@RequestMapping(value = "getAll", method = RequestMethod.GET)
 	public Response<Student> getAll() {
@@ -113,27 +112,27 @@ public class StudentController {
 			/*
 			 * if(student.getStu_pp()== null) student.setStu_pp(defaultStaffPhoto);
 			 */
-			
-			if(!student.getFamilyMembers().isEmpty()) {
+
+			if (!student.getFamilyMembers().isEmpty()) {
 				members = familyMemberService.saveFamilyList(student.getFamilyMembers());
 			}
 			student.setFamilyMembers(members);
 			Student result = studentservice.create(student);
 			if (!result.getStu_email().isEmpty()) {
 				User user = new User();
-				user.setUserName((result.getStu_gender().equals("Male") ? "Mg " : "Ma " )+ result.getStu_name());
+				user.setUserName((result.getStu_gender().equals("Male") ? "Mg " : "Ma ") + result.getStu_name());
 				user.setEmail(result.getStu_email());
 				user.setPassword("cuStudent");
 				user.setRole("STUDENT");
-				
+
 				userService.createUser(user);
-				
+
 			}
-			
+
 			response.setData(result);
 			response.setMessage("Success");
 		} catch (Exception e) {
-			// TODO: handle exception			
+			// TODO: handle exception
 			e.printStackTrace();
 			familyMemberService.deleteAll(members);
 			response.setStatus(false);
@@ -150,29 +149,32 @@ public class StudentController {
 		try {
 			Student existingData = studentservice.getStudentById(student.getId());
 			if (existingData != null) {
-				student.setModifyDate(new Date());				
+				student.setModifyDate(new Date());
 				if (!student.getStu_email().isEmpty()) {
 					User user = userService.findByEmail(existingData.getStu_email());
-					if(user != null) {
-						if(user.getEmail().equals(student.getStu_email())) {
-							user.setUserName((student.getStu_gender().equals("Male") ? "Mg " : "Ma ") + student.getStu_name());
-							
-						}else {
-							user.setUserName((student.getStu_gender().equals("Male") ? "Mg " : "Ma ") + student.getStu_name());
+					if (user != null) {
+						if (user.getEmail().equals(student.getStu_email())) {
+							user.setUserName(
+									(student.getStu_gender().equals("Male") ? "Mg " : "Ma ") + student.getStu_name());
+
+						} else {
+							user.setUserName(
+									(student.getStu_gender().equals("Male") ? "Mg " : "Ma ") + student.getStu_name());
 							user.setEmail(student.getStu_email());
 						}
-					}else {
+					} else {
 						user = new User();
-						user.setUserName((student.getStu_gender().equals("Male") ? "Mg " : "Ma ") + student.getStu_name());
+						user.setUserName(
+								(student.getStu_gender().equals("Male") ? "Mg " : "Ma ") + student.getStu_name());
 						user.setEmail(student.getStu_email());
 						user.setPassword("cuStudent");
 						user.setRole("STUDENT");
-					}				
+					}
 					userService.createUser(user);
 				}
-				
+
 				List<FamilyMember> members = new ArrayList<FamilyMember>();
-				if(!student.getFamilyMembers().isEmpty()) {
+				if (!student.getFamilyMembers().isEmpty()) {
 					members = familyMemberService.saveFamilyList(student.getFamilyMembers());
 				}
 				student.setFamilyMembers(members);
@@ -204,14 +206,13 @@ public class StudentController {
 		}
 		return response;
 	}
-	
+
 	@RequestMapping(value = "delete", method = RequestMethod.DELETE)
 	public Response<Student> delete(@RequestParam Long id) {
 		Response<Student> response = new Response<Student>();
 
 		try {
-			
-			
+
 			Student existingData = studentservice.getStudentById(id);
 			if (existingData != null) {
 				Student oldData = existingData;
@@ -219,7 +220,7 @@ public class StudentController {
 				oldData.setModifyDate(new Date());
 				response.setData(studentservice.create(oldData));
 				response.setMessage("Delete Success");
-				User user=userService.findByEmail(existingData.getStu_email());
+				User user = userService.findByEmail(existingData.getStu_email());
 				user.setActiveStatus(ActiveStatus.DELETE);
 				user.setModifyDate(new Date());
 				userService.createUser(user);
@@ -233,6 +234,23 @@ public class StudentController {
 			response.setMessage("Error occur");
 			return response;
 		}
+		return response;
+	}
+
+	// Retrieving student list for adding to section By checking academic Batch and
+	// major
+
+	@RequestMapping(value = "getStudentByBatch", method = RequestMethod.POST)
+	public Response<Student> getStudentByBatch(@RequestBody FilterDTO filter) {
+		Response<Student> response = new Response<Student>();
+		try {
+			List<Student> students = studentservice.getListbyBatch(filter);
+			response.setData(students);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
 		return response;
 	}
 }

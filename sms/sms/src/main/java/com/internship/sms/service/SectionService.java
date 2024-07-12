@@ -19,5 +19,4 @@ public interface SectionService {
 
 	public List<Section> getSectionList(FilterDTO dto);
 
-
 }

@@ -1,6 +1,7 @@
 package com.internship.sms.serviceImpl;
 
 import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.dto.FilterDTO;
 import com.internship.sms.entity.Section;
+
 import com.internship.sms.repository.SectionRepository;
 import com.internship.sms.service.SectionService;
 
@@ -93,5 +95,6 @@ public class SectionServiceImpl implements SectionService {
 		return null;
 		
 	}
+
 
 }

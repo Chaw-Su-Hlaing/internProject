@@ -1,5 +1,6 @@
 package com.internship.sms.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +16,9 @@ import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.common.Response;
 import com.internship.sms.dto.FilterDTO;
 import com.internship.sms.entity.Section;
+import com.internship.sms.entity.Student;
 import com.internship.sms.service.SectionService;
+import com.internship.sms.service.StudentService;
 
 @RestController
 @RequestMapping("/section/")
@@ -24,6 +27,8 @@ public class SectionController {
 
 	@Autowired
 	SectionService sectionService;
+	@Autowired
+	StudentService studentService;
 
 	@RequestMapping(value = "getAll", method = RequestMethod.GET)
 	public Response<Section> getAllSection() {
@@ -77,9 +82,12 @@ public class SectionController {
 		return response;
 	}
 
+	// for simple edit and for adding student to section (this may be editing)
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	public Response<Section> update(@RequestParam Section section) {
 		Response<Section> response = new Response<Section>();
+		List<Student> students = new ArrayList<Student>();
+
 		try {
 			Section existingData = sectionService.getSectionById(section.getId());
 			if (existingData != null) {
@@ -89,6 +97,15 @@ public class SectionController {
 				response.setMessage("Update succes");
 			} else {
 				response.setMessage("No Existing Data");
+			}
+
+			// if student is added to section
+			if (!section.getStudents().isEmpty()) {
+				students = studentService.saveStudents(section.getStudents());
+
+				section.setStudents(students);
+				Section sec = sectionService.create(section);
+				response.setData(sec);
 			}
 		} catch (Exception e) {
 			// TODO: handle
@@ -125,6 +142,7 @@ public class SectionController {
 		return response;
 	}
 
+	
 	@RequestMapping(value = "getSectionList", method = RequestMethod.POST)
 	public Response<Section> getSectionList(@RequestBody FilterDTO section) {
 		Response<Section> response = new Response<>();
