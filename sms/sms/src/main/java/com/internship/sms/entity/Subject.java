@@ -52,6 +52,6 @@ public class Subject extends AbstractEntity implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "subject_staff", joinColumns = {
 			@JoinColumn(name = "subject_id", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "staff_id", referencedColumnName = "id") })
+					@JoinColumn(name = "teacher_id", referencedColumnName = "id") })
 	private List<Staff> subjectStaff;
 }
