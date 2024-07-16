@@ -31,6 +31,9 @@ public class RequestMessage extends AbstractEntity implements Serializable{
 	@Column(name="email")
 	private String email;
 	
+	@Column(name="profile")
+	private String profile;
+	
 	@Column(name="title")
 	private String title;
 	

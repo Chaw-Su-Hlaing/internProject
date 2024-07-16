@@ -61,4 +61,10 @@ public class RequestMessageServiceImpl implements RequestMessageService {
 			return null;
 	}
 
+	@Override
+	public List<RequestMessage> getAllByRequestStatus() {
+		// TODO Auto-generated method stub
+		return reqRepo.getAllByRequestStatus(ActiveStatus.ACTIVE,true);
+	}
+
 }

@@ -32,12 +32,12 @@ public class Section extends AbstractEntity implements Serializable {
 	private String major;
 
 	@Column(name = "No_of_student")
-	private String noOfStudent;
+	private Integer noOfStudent;
 
 	@ManyToOne
 	@JoinColumn(name = "academicBatch_id")
 	private AcademicBatch academicBatch;
-	
+
 	@OneToMany
 	@JoinTable(name = "add_Student_toSection", joinColumns = {
 			@JoinColumn(name = "Section_id", referencedColumnName = "id", nullable = true) }, inverseJoinColumns = {

@@ -68,10 +68,19 @@ public class SectionController {
 	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public Response<Section> save(@RequestBody Section section) {
 		Response<Section> response = new Response<Section>();
+		List<Student> students = new ArrayList<Student>();
 		try {
+			if (!section.getStudents().isEmpty()) {
+				students = studentService.saveStudents(section.getStudents());
+
+				section.setStudents(students);
+				Section sec = sectionService.create(section);
+				response.setData(sec);
+			}
 			Section result = sectionService.create(section);
 			response.setData(result);
 			response.setMessage("save success");
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
