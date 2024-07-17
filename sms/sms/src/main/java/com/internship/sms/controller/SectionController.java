@@ -142,7 +142,25 @@ public class SectionController {
 		return response;
 	}
 
-	
+	// method to get section for respective student
+
+	@RequestMapping(value = "getSection", method = RequestMethod.POST)
+	public Response<Section> getSection(@RequestBody FilterDTO student) {
+		Response<Section> response = new Response<>();
+		try {
+			Section sec = sectionService.getSection(student);
+			response.setData(sec);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("internal server error occur");
+
+		}
+		return response;
+	}
+
 	@RequestMapping(value = "getSectionList", method = RequestMethod.POST)
 	public Response<Section> getSectionList(@RequestBody FilterDTO section) {
 		Response<Section> response = new Response<>();

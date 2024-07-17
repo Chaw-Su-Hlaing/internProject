@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.internship.sms.dto.FilterDTO;
 import com.internship.sms.entity.Section;
+import com.internship.sms.entity.Student;
 
 public interface SectionService {
 
@@ -16,6 +17,8 @@ public interface SectionService {
 	public Section update(Section section);
 
 	public boolean delete(Section section);
+	
+	public Section getSection(FilterDTO student_section);
 
 	public List<Section> getSectionList(FilterDTO dto);
 

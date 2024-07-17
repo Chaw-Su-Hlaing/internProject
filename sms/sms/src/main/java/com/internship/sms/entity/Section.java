@@ -3,6 +3,7 @@ package com.internship.sms.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -34,7 +35,7 @@ public class Section extends AbstractEntity implements Serializable {
 	@Column(name = "No_of_student")
 	private String noOfStudent;
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "academicBatch_id")
 	private AcademicBatch academicBatch;
 	
