@@ -68,15 +68,24 @@ public class SectionController {
 	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public Response<Section> save(@RequestBody Section section) {
 		Response<Section> response = new Response<Section>();
+		List<Student> students = new ArrayList<Student>();
 		try {
+			if (!section.getStudents().isEmpty()) {
+				students = studentService.saveStudents(section.getStudents());
+
+				section.setStudents(students);
+				Section sec = sectionService.create(section);
+				response.setData(sec);
+			}
 			Section result = sectionService.create(section);
 			response.setData(result);
 			response.setMessage("save success");
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			response.setStatus(false);
-			response.setMessage("internal server error occur");
+			response.setMessage("Selected student is already added to the section");
 			return response;
 		}
 		return response;
@@ -118,10 +127,10 @@ public class SectionController {
 	}
 
 	@RequestMapping(value = "delete", method = RequestMethod.DELETE)
-	public Response<Section> delete(@RequestBody Section section) {
+	public Response<Section> delete(@RequestParam Long id) {
 		Response<Section> response = new Response<Section>();
 		try {
-			Section existingData = sectionService.getSectionById(section.getId());
+			Section existingData = sectionService.getSectionById(id);
 			if (existingData != null) {
 				Section oldData = existingData;
 				oldData.setActiveStatus(ActiveStatus.DELETE);

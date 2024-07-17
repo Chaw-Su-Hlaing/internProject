@@ -23,7 +23,7 @@ import com.internship.sms.service.RequestMessageService;
  * 
  */
 @RestController
-@RequestMapping("/requetMessage/")
+@RequestMapping("/requestMessage/")
 @CrossOrigin(origins = "*")
 public class RequestMessageController {
 
@@ -36,6 +36,42 @@ public class RequestMessageController {
 		try {
 			List<RequestMessage> result = reqSer.getAll();
 			response.setMessage("All RequestMessage Lists");
+			response.setData(result);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Error Occurs");
+			return response;
+		}
+		return response;
+	}
+
+	@RequestMapping(value = "getAllByRequestStatus", method = RequestMethod.GET)
+	public Response<RequestMessage> getAllByRequestStatus() {
+		Response<RequestMessage> response = new Response<RequestMessage>();
+		try {
+			List<RequestMessage> result = reqSer.getAllByRequestStatus();
+			response.setMessage("All unread messages");
+			response.setData(result);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Error Occurs");
+			return response;
+		}
+		return response;
+	}
+
+	@RequestMapping(value = "getSelfMessage", method = RequestMethod.GET)
+	public Response<RequestMessage> getSelfMessage(@RequestParam String email) {
+		Response<RequestMessage> response = new Response<RequestMessage>();
+		try {
+			List<RequestMessage> result = reqSer.getSelfMessage(email);
+			response.setMessage("All your messages lists");
 			response.setData(result);
 
 		} catch (Exception e) {
@@ -70,6 +106,7 @@ public class RequestMessageController {
 	public Response<RequestMessage> create(@RequestBody RequestMessage requestMessage) {
 		Response<RequestMessage> response = new Response<RequestMessage>();
 		try {
+			requestMessage.setRequest_status(true);
 			response.setData(reqSer.create(requestMessage));
 			response.setMessage("Success");
 		} catch (Exception e) {
@@ -89,8 +126,8 @@ public class RequestMessageController {
 		try {
 			RequestMessage existingData = reqSer.getMessageById(requestMessage.getId());
 			if (existingData != null) {
-				RequestMessage oldData = existingData;
-				oldData = requestMessage;
+				RequestMessage oldData = requestMessage;
+				oldData.setRequest_status(false);
 				response.setData(reqSer.create(oldData));
 				response.setMessage("Update Success");
 			} else

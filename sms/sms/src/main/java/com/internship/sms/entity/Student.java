@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -15,6 +14,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,7 +27,12 @@ import lombok.Setter;
 @Table(name = "Student")
 public class Student extends AbstractEntity implements Serializable {
 
-	private static final long serialVersionUID = -5775636371997320818L;
+	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5871816156506912417L;
 
 	@Column(name = "student_name")
 	private String stu_name;
@@ -76,8 +81,11 @@ public class Student extends AbstractEntity implements Serializable {
 
 	@Column(name = "student_ferry")
 	private String stu_ferry;
+	
+	@Transient
+	private boolean select;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "academic_id")
 	private AcademicYear stuAcademicYear;
 

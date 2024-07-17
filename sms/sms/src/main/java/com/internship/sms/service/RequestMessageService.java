@@ -21,4 +21,8 @@ public interface RequestMessageService {
 	public RequestMessage update(RequestMessage requestMessage);
 
 	public boolean delete(RequestMessage requestMessage);
+
+	public List<RequestMessage> getAllByRequestStatus();
+
+	public List<RequestMessage> getSelfMessage(String email);
 }
