@@ -15,6 +15,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -76,6 +77,9 @@ public class Student extends AbstractEntity implements Serializable {
 
 	@Column(name = "student_ferry")
 	private String stu_ferry;
+	
+	@Transient
+	private boolean select;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "academic_id")

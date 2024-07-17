@@ -85,7 +85,7 @@ public class SectionController {
 			// TODO: handle exception
 			e.printStackTrace();
 			response.setStatus(false);
-			response.setMessage("internal server error occur");
+			response.setMessage("Selected student is already added to the section");
 			return response;
 		}
 		return response;
@@ -127,10 +127,10 @@ public class SectionController {
 	}
 
 	@RequestMapping(value = "delete", method = RequestMethod.DELETE)
-	public Response<Section> delete(@RequestBody Section section) {
+	public Response<Section> delete(@RequestParam Long id) {
 		Response<Section> response = new Response<Section>();
 		try {
-			Section existingData = sectionService.getSectionById(section.getId());
+			Section existingData = sectionService.getSectionById(id);
 			if (existingData != null) {
 				Section oldData = existingData;
 				oldData.setActiveStatus(ActiveStatus.DELETE);
