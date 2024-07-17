@@ -66,6 +66,24 @@ public class RequestMessageController {
 		return response;
 	}
 
+	@RequestMapping(value = "getSelfMessage", method = RequestMethod.GET)
+	public Response<RequestMessage> getSelfMessage(@RequestParam String email) {
+		Response<RequestMessage> response = new Response<RequestMessage>();
+		try {
+			List<RequestMessage> result = reqSer.getSelfMessage(email);
+			response.setMessage("All your messages lists");
+			response.setData(result);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Error Occurs");
+			return response;
+		}
+		return response;
+	}
+
 	@RequestMapping(value = "getById", method = RequestMethod.GET)
 	public Response<RequestMessage> getById(@RequestParam Long id) {
 		Response<RequestMessage> response = new Response<RequestMessage>();

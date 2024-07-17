@@ -64,7 +64,13 @@ public class RequestMessageServiceImpl implements RequestMessageService {
 	@Override
 	public List<RequestMessage> getAllByRequestStatus() {
 		// TODO Auto-generated method stub
-		return reqRepo.getAllByRequestStatus(ActiveStatus.ACTIVE,true);
+		return reqRepo.getAllByRequestStatus(ActiveStatus.ACTIVE, true);
+	}
+
+	@Override
+	public List<RequestMessage> getSelfMessage(String email) {
+		// TODO Auto-generated method stub
+		return reqRepo.getSelfMessage(ActiveStatus.ACTIVE, email);
 	}
 
 }
