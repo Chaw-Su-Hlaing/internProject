@@ -1,17 +1,23 @@
 package com.internship.sms.controller;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.common.Response;
+import com.internship.sms.common.Util;
 import com.internship.sms.entity.Notice;
 import com.internship.sms.service.NoticeService;
 
@@ -19,6 +25,15 @@ import com.internship.sms.service.NoticeService;
 @RequestMapping("/notice/")
 @CrossOrigin(origins = "*")
 public class NoticeController {
+
+	@Value("${notice.file.path.realPath}")
+	private String noticeRealPath;
+
+	@Value("${notice.file.path.relativePath}")
+	private String noticeRelativePath;
+
+	@Value("${notice.file.path.defaultPath")
+	private String defaultPhoto;
 
 	@Autowired
 	NoticeService noticeService;
@@ -117,6 +132,21 @@ public class NoticeController {
 			response.setStatus(false);
 			response.setMessage("Internal server error occur");
 			return response;
+		}
+		return response;
+	}
+
+	@RequestMapping(value = "uploadNoticeFile", method = RequestMethod.POST, consumes = { "multipart/form-data" })
+	public Response<String> saveNoticeFile(@RequestPart("uploadFile") MultipartFile uploadFile) throws IOException {
+		Response<String> response = new Response<String>();
+		if (uploadFile == null || uploadFile.isEmpty()) {
+			response.setStatus(false);
+			response.setData(defaultPhoto);
+			response.setMessage("Invalid File Upload!");
+
+		} else {
+			String filePath = Util.uploadFile(uploadFile, noticeRealPath, noticeRelativePath);
+			response.setData(filePath);
 		}
 		return response;
 	}
