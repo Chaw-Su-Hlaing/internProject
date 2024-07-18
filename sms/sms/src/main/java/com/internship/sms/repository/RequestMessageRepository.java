@@ -23,4 +23,8 @@ public interface RequestMessageRepository extends JpaRepository<RequestMessage, 
 	@Query("select u from RequestMessage u where u.activeStatus = :activeStatus and u.request_status=:request_status")
 	List<RequestMessage> getAllByRequestStatus(@Param("activeStatus") ActiveStatus activeStatus,
 			@Param("request_status") boolean request_status);
+
+	@Query("select u from RequestMessage u where u.activeStatus = :activeStatus and u.email=:email")
+	List<RequestMessage> getSelfMessage(@Param("activeStatus") ActiveStatus activeStatus, @Param("email") String email);
+
 }

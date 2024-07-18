@@ -20,25 +20,28 @@ public class Timetable extends AbstractEntity implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Column(name = "schedule_id")
+	private Long scheduleTime;
+
 	@ManyToOne
-	@JoinColumn(name="schedule_id")
-	private Schedule scheduleTime;
-	
-	@ManyToOne
-	@JoinColumn(name="subject_id")
+	@JoinColumn(name = "subject_id")
 	private Subject subject;
-	
-	@Column(name="teacher_id")
+
+	@Column(name = "teacher_id")
 	private String teacher_id;
-	
+
 	@ManyToOne
-	@JoinColumn(name="year_id")
-	private AcademicYear acdemicYear;
-	
-	
-	
-	
-	
-	
+	@JoinColumn(name = "year_id")
+	private AcademicYear academicYear;
+
+	@ManyToOne 
+	@JoinColumn(name = "section_id")
+	private Section section;
+
+//	@OneToMany
+//	@JoinTable(name = "timetable_section", joinColumns = {
+//			@JoinColumn(name = "timetable_id", referencedColumnName = "id", nullable = true) }, inverseJoinColumns = {
+//					@JoinColumn(name = "section_id", referencedColumnName = "id", nullable = true) })
+//	private List<Section> sections;
 
 }

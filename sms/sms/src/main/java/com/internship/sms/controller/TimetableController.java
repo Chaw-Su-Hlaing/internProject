@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.common.Response;
+import com.internship.sms.dto.FilterDTO;
 import com.internship.sms.entity.Timetable;
+import com.internship.sms.service.ScheduleService;
 import com.internship.sms.service.TimetableService;
 
 @RestController
@@ -21,6 +23,9 @@ public class TimetableController {
 
 	@Autowired
 	TimetableService timetableService;
+
+	@Autowired
+	ScheduleService scheduleService;
 
 	@RequestMapping(value = "getAll", method = RequestMethod.GET)
 	public Response<Timetable> getAll() {
@@ -57,10 +62,11 @@ public class TimetableController {
 	}
 
 	@RequestMapping(value = "save", method = RequestMethod.POST)
-	public Response<Timetable> create(@RequestBody Timetable timetable) {
+	public Response<Timetable> create(@RequestBody List<Timetable> timetable) {
 		Response<Timetable> response = new Response<Timetable>();
 		try {
-			Timetable result = timetableService.create(timetable);
+
+			List<Timetable> result = timetableService.createList(timetable);
 			response.setData(result);
 			response.setMessage("Save succes");
 		} catch (Exception e) {
@@ -119,4 +125,22 @@ public class TimetableController {
 		}
 		return response;
 	}
+
+	// Retrieving timetable in Student view according to batch,semester
+	@RequestMapping(value = "retrieveTimetable", method = RequestMethod.POST)
+	public Response<Timetable> TimetableList(@RequestBody FilterDTO filter) {
+		Response<Timetable> response = new Response<Timetable>();
+
+		try {
+			List<Timetable> result=timetableService.getListBySection(filter);
+			response.setData(result);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return response;
+		
+	}
+
 }

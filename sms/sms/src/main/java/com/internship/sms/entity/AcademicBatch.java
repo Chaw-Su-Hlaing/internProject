@@ -20,10 +20,12 @@ import lombok.Setter;
 @Table(name="academicBatch")
 public class AcademicBatch extends AbstractEntity implements Serializable{
 
+	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2741439850511615677L;
 	
 	@Column(name = "name")
 	private String name;
