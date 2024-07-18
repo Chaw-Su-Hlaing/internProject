@@ -23,6 +23,9 @@ public class Notice extends AbstractEntity implements Serializable {
 
 	@Column(name = "content")
 	private String content;
+	
+	@Column(name="notice_status")
+	private boolean notice_status;
 
 	@Column(name = "notice_picture")
 	private String noticePicture;

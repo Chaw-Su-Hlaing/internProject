@@ -57,4 +57,10 @@ public class NoticeServiceImpl implements NoticeService {
 		return noticeRepository.save(notice);
 	}
 
+	@Override
+	public List<Notice> getAllByNoticeStatus() {
+		// TODO Auto-generated method stub
+		return noticeRepository.getAllByNoticeStatus(ActiveStatus.ACTIVE, true);
+	}
+
 }
