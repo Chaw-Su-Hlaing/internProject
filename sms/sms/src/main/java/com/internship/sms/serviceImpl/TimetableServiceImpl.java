@@ -89,11 +89,6 @@ public class TimetableServiceImpl implements TimetableService {
 				predicate = builder.and(predicate, builder.equal(root.get("section").get("id"), filter.getSection()));
 
 			}
-			if (filter.getAcademicYear() != null) {
-				predicate = builder.and(predicate,
-						builder.equal(root.get("academicYear").get("id"), filter.getAcademicYear()));
-			}
-
 			query.where(predicate);
 			TypedQuery<Timetable> typeQuery = entityManager.createQuery(query);
 			List<Timetable> timetable = typeQuery.getResultList();

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.dto.FilterDTO;
 import com.internship.sms.entity.Section;
-
+import com.internship.sms.entity.Student;
 import com.internship.sms.repository.SectionRepository;
 import com.internship.sms.service.SectionService;
 
@@ -18,6 +18,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
@@ -79,22 +81,48 @@ public class SectionServiceImpl implements SectionService {
 			query.select(root);
 			Predicate predicate = builder.equal(root.get("activeStatus"), ActiveStatus.ACTIVE);
 			if (dto.getBatchId() != null) {
-				predicate = builder.and(predicate, builder.equal(root.get("academicBatch").get("id"), dto.getBatchId()));
+				predicate = builder.and(predicate,
+						builder.equal(root.get("academicBatch").get("id"), dto.getBatchId()));
 			}
 			if (dto.getMajor() != null && !dto.getMajor().isEmpty()) {
 				predicate = builder.and(predicate, builder.equal(root.get("major"), dto.getMajor()));
 			}
 			query.where(predicate);
-			TypedQuery<Section> typeQuery=entityManager.createQuery(query);
-			List<Section> sections=typeQuery.getResultList();
+			TypedQuery<Section> typeQuery = entityManager.createQuery(query);
+			List<Section> sections = typeQuery.getResultList();
 			return sections;
-			} catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
-				e.printStackTrace();
+			e.printStackTrace();
 		}
 		return null;
-		
+
 	}
 
+	@Override
+	public Section getSection(FilterDTO dto) {
+		// TODO Auto-generated method stub
+
+		try {
+			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Section> query = builder.createQuery(Section.class);
+			Root<Section> root = query.from(Section.class);
+			query.select(root);
+			Predicate predicate = builder.equal(root.get("activeStatus"), ActiveStatus.ACTIVE);
+			if (dto.getStudentId() != null) {
+				Join<Section,Student> student_section = root.join("students", JoinType.INNER);
+				predicate = builder.and(predicate, builder.equal(student_section.get("id"), dto.getStudentId()));
+			}
+			query.where(predicate);
+			TypedQuery<Section> typeQuery = entityManager.createQuery(query);
+			Section section = typeQuery.getSingleResult();
+			return section;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 
 }

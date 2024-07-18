@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.internship.sms.dto.FilterDTO;
 import com.internship.sms.entity.Section;
-import com.internship.sms.entity.Student;
 
 public interface SectionService {
 

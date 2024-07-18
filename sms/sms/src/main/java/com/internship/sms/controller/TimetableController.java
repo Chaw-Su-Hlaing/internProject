@@ -126,7 +126,7 @@ public class TimetableController {
 		return response;
 	}
 
-	// Retrieving timetable in Student view according to batch,semester
+	// Retrieving timetable in Student view according to section
 	@RequestMapping(value = "retrieveTimetable", method = RequestMethod.POST)
 	public Response<Timetable> TimetableList(@RequestBody FilterDTO filter) {
 		Response<Timetable> response = new Response<Timetable>();
