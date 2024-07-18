@@ -15,4 +15,6 @@ public interface NoticeService {
 	public boolean delete(Notice notice);
 	
 	public Notice update(Notice notice);
+	
+	public List<Notice> getAllByNoticeStatus();
 } 

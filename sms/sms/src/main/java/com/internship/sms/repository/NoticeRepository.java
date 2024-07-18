@@ -15,4 +15,8 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
 	@Query("select u  from Notice u where u.activeStatus=:activeStatus")
 	List<Notice> getAllByActiveStatus(@Param("activeStatus") ActiveStatus activeStatus);
 
+	@Query("select u  from Notice u where u.activeStatus=:activeStatus and u.notice_status=:notice_status")
+	List<Notice> getAllByNoticeStatus(@Param("activeStatus") ActiveStatus activeStatus,
+			@Param("notice_status") boolean notice_status);
+
 }

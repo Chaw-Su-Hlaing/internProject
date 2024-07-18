@@ -40,6 +40,23 @@ public class NoticeController {
 		return response;
 	}
 
+	@RequestMapping(value = "getAllByNoticeStatus", method = RequestMethod.GET)
+	public Response<Notice> getAllByNoticeStatus() {
+		Response<Notice> response = new Response<Notice>();
+		try {
+			List<Notice> result = noticeService.getAllByNoticeStatus();
+			response.setData(result);
+			response.setMessage("All unread Notice Lists");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			response.setStatus(false);
+			response.setMessage("Internal Server Error");
+			return response;
+		}
+		return response;
+	}
+
 	@RequestMapping(value = "getById", method = RequestMethod.GET)
 	public Response<Notice> getById(@RequestParam Long id) {
 		Response<Notice> response = new Response<Notice>();
@@ -61,6 +78,7 @@ public class NoticeController {
 	public Response<Notice> create(@RequestBody Notice notice) {
 		Response<Notice> response = new Response<Notice>();
 		try {
+			notice.setNotice_status(true);
 			Notice result = noticeService.create(notice);
 			response.setData(result);
 			response.setMessage("Save succes");
@@ -104,8 +122,8 @@ public class NoticeController {
 		try {
 			Notice existingData = noticeService.getById(notice.getId());
 			if (existingData != null) {
-				Notice oldData = existingData;
-				oldData.setModifyDate(new Date());
+				Notice oldData = notice;
+				oldData.setNotice_status(false);
 				response.setData(noticeService.create(oldData));
 				response.setMessage("update succes");
 			} else {
