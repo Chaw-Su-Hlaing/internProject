@@ -110,7 +110,7 @@ public class SectionServiceImpl implements SectionService {
 			query.select(root);
 			Predicate predicate = builder.equal(root.get("activeStatus"), ActiveStatus.ACTIVE);
 			if (dto.getStudentId() != null) {
-				Join<Section,Student> student_section = root.join("students", JoinType.INNER);
+				Join<Section, Student> student_section = root.join("students", JoinType.INNER);
 				predicate = builder.and(predicate, builder.equal(student_section.get("id"), dto.getStudentId()));
 			}
 			query.where(predicate);

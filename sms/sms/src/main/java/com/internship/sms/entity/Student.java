@@ -86,7 +86,7 @@ public class Student extends AbstractEntity implements Serializable {
 	@Transient
 	private boolean select;
 
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "academic_id")
 	private AcademicYear stuAcademicYear;
 

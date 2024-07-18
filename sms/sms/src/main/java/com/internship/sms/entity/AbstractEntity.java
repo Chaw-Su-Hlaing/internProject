@@ -39,8 +39,6 @@ public class AbstractEntity {
 	@Column(name = "modify_date")
 	private Date modifyDate;
 
-	@Column(name = "active_status", length = 8)
-	//@JsonView(Views.Thin.class)
 	@Enumerated(EnumType.STRING)
 	private ActiveStatus activeStatus = ActiveStatus.ACTIVE;
 
