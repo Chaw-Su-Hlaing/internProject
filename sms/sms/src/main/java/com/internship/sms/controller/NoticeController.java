@@ -12,79 +12,81 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.common.Response;
-import com.internship.sms.entity.Schedule;
-import com.internship.sms.service.ScheduleService;
+import com.internship.sms.entity.Notice;
+import com.internship.sms.service.NoticeService;
 
 @RestController
-@RequestMapping("/schedule/")
+@RequestMapping("/notice/")
 @CrossOrigin(origins = "*")
-public class ScheduleController {
+public class NoticeController {
+
 	@Autowired
-	ScheduleService scheduleService;
+	NoticeService noticeService;
 
 	@RequestMapping(value = "getAll", method = RequestMethod.GET)
-	public Response<Schedule> getAll() {
-		Response<Schedule> response = new Response<Schedule>();
+	public Response<Notice> getAll() {
+		Response<Notice> response = new Response<Notice>();
 		try {
-			List<Schedule> result = scheduleService.getAll();
+			List<Notice> result = noticeService.getAll();
 			response.setData(result);
-			response.setMessage("All Schedule List");
+			response.setMessage("All Notice Lists");
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			response.setStatus(false);
-			response.setMessage("Internal server error occur");
+			response.setMessage("Internal Server Error");
 			return response;
 		}
 		return response;
 	}
 
 	@RequestMapping(value = "getById", method = RequestMethod.GET)
-	public Response<Schedule> getById(@RequestParam Long id) {
-		Response<Schedule> response = new Response<Schedule>();
+	public Response<Notice> getById(@RequestParam Long id) {
+		Response<Notice> response = new Response<Notice>();
 		try {
-			Schedule result = scheduleService.getById(id);
+			Notice result = noticeService.getById(id);
 			response.setData(result);
-			response.setMessage("Schedule list with id");
+			response.setMessage("Notice with Selected Id");
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			response.setStatus(false);
-			response.setMessage("Internal server error occur");
+			response.setMessage("Internal Server Error");
 			return response;
 		}
 		return response;
 	}
 
 	@RequestMapping(value = "save", method = RequestMethod.POST)
-	public Response<Schedule> create(@RequestBody Schedule schedule) {
-		Response<Schedule> response = new Response<Schedule>();
+	public Response<Notice> create(@RequestBody Notice notice) {
+		Response<Notice> response = new Response<Notice>();
 		try {
-			Schedule result = scheduleService.create(schedule);
+			Notice result = noticeService.create(notice);
 			response.setData(result);
-			response.setMessage("Save record success");
+			response.setMessage("Save succes");
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			response.setStatus(false);
-			response.setMessage("Internal server error occour");
+			response.setMessage("Internal Server Error");
 			return response;
 		}
 		return response;
 	}
 
-	@RequestMapping(value = "update", method = RequestMethod.POST)
-	public Response<Schedule> update(@RequestBody Schedule schedule) {
-		Response<Schedule> response = new Response<Schedule>();
+	@RequestMapping(value = "delete", method = RequestMethod.DELETE)
+	public Response<Notice> delete(@RequestParam Long id) {
+		Response<Notice> response = new Response<Notice>();
 		try {
-			Schedule existingData = scheduleService.getById(schedule.getId());
+			Notice existingData = noticeService.getById(id);
 			if (existingData != null) {
-				Schedule oldData = existingData;
+				Notice oldData = existingData;
+				oldData.setActiveStatus(ActiveStatus.DELETE);
 				oldData.setModifyDate(new Date());
-				response.setData(scheduleService.create(oldData));
-				response.setMessage("Update succes");
+				response.setData(noticeService.create(oldData));
+				response.setMessage("Delete succes");
 			} else {
-				response.setMessage("No Existing Data");
+				response.setMessage("Record Not Found");
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -96,25 +98,24 @@ public class ScheduleController {
 		return response;
 	}
 
-	@RequestMapping(value = "delete", method = RequestMethod.DELETE)
-	public Response<Schedule> delete(@RequestBody Schedule schedule) {
-		Response<Schedule> response = new Response<Schedule>();
+	@RequestMapping(value = "update", method = RequestMethod.POST)
+	public Response<Notice> update(@RequestBody Notice notice) {
+		Response<Notice> response = new Response<Notice>();
 		try {
-			Schedule existingData = scheduleService.getById(schedule.getId());
+			Notice existingData = noticeService.getById(notice.getId());
 			if (existingData != null) {
-				Schedule oldData = existingData;
+				Notice oldData = existingData;
 				oldData.setModifyDate(new Date());
-				oldData.setActiveStatus(ActiveStatus.DELETE);
-				response.setData(scheduleService.create(oldData));
-				response.setMessage("Delete Succes");
+				response.setData(noticeService.create(oldData));
+				response.setMessage("update succes");
 			} else {
-				response.setMessage("No existing data");
+				response.setMessage("NO existing Data");
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			response.setStatus(false);
-			response.setMessage("Internal Server Error Occur!");
+			response.setMessage("Internal server error occur");
 			return response;
 		}
 		return response;
