@@ -34,7 +34,7 @@ public class Timetable extends AbstractEntity implements Serializable {
 	@JoinColumn(name = "year_id")
 	private AcademicYear academicYear;
 
-	@ManyToOne 
+	@ManyToOne
 	@JoinColumn(name = "section_id")
 	private Section section;
 

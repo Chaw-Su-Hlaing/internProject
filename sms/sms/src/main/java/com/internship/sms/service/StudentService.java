@@ -19,8 +19,10 @@ public interface StudentService {
 
 	public List<Student> getAll();
 	public List<Student> getListbyBatch(FilterDTO filter);
-//student list in service
+    //student list in service
 	public List<Student> saveStudents(List<Student> students);
+	public List<Student>getStudentListBySection(FilterDTO filter);
+	
 	
 
 }
