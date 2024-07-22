@@ -87,13 +87,14 @@ public class SubjectServiceImpl implements SubjectService {
 			if (dto.getBatchId() != null) {
 				predicate = builder.and(predicate, builder.equal(root.get("subjectBatch").get("id"), dto.getBatchId()));
 			}
+			if (dto.getMajor() != null && !dto.getMajor().isEmpty()) {
+				predicate = builder.and(predicate, builder.equal(root.get("major"), dto.getMajor()));
+			}
 			if (dto.getSemesterId() != null) {
 				predicate = builder.and(predicate,
 						builder.equal(root.get("subjectSem").get("id"), dto.getSemesterId()));
 			}
-			if (dto.getMajor() != null && !dto.getMajor().isEmpty()) {
-				predicate = builder.and(predicate, builder.equal(root.get("major"), dto.getMajor()));
-			}
+			
 			query.where(predicate);
 			TypedQuery<Subject> typedQuery = entityManager.createQuery(query);
 			

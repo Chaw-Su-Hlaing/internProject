@@ -6,6 +6,8 @@ package com.internship.sms.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -84,7 +86,7 @@ public class Student extends AbstractEntity implements Serializable {
 	@Transient
 	private boolean select;
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "academic_id")
 	private AcademicYear stuAcademicYear;
 
