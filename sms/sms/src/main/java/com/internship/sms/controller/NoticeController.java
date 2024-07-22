@@ -158,8 +158,8 @@ public class NoticeController {
 	public Response<String> saveNoticeFile(@RequestPart("uploadFile") MultipartFile uploadFile) throws IOException {
 		Response<String> response = new Response<String>();
 		if (uploadFile == null || uploadFile.isEmpty()) {
-			response.setStatus(false);
 			response.setData(defaultPhoto);
+			response.setStatus(false);
 			response.setMessage("Invalid File Upload!");
 
 		} else {
