@@ -35,7 +35,7 @@ public class Section extends AbstractEntity implements Serializable {
 	@Column(name = "No_of_student")
 	private Integer noOfStudent;
 
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "academicBatch_id")
 	private AcademicBatch academicBatch;
 
