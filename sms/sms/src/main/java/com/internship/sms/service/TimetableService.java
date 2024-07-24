@@ -12,6 +12,7 @@ public interface TimetableService {
 	public Timetable getById(Long id);
 
 	public List<Timetable> createList(List<Timetable> timetable);
+	
 	public Timetable create(Timetable timetable);
 
 	public Timetable update(Timetable timetable);
@@ -19,4 +20,7 @@ public interface TimetableService {
 	public boolean delete(Timetable timetable);
 
 	public List<Timetable> getListBySection(FilterDTO filter);
+	//retrieve section list By respective subjects
+	public List <Timetable> getSectionListBySubject(FilterDTO filter);
+	
 }

@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -86,7 +85,7 @@ public class Student extends AbstractEntity implements Serializable {
 	@Transient
 	private boolean select;
 
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "academic_id")
 	private AcademicYear stuAcademicYear;
 
@@ -95,7 +94,6 @@ public class Student extends AbstractEntity implements Serializable {
 			@JoinColumn(name = "student_id", referencedColumnName = "id", nullable = true) }, inverseJoinColumns = {
 					@JoinColumn(name = "family_member_id", referencedColumnName = "id", nullable = true) })
 	private List<FamilyMember> familyMembers;
-
 	@ManyToOne
 	@JoinColumn(name = "batch_id")
 	private AcademicBatch studentBatch;

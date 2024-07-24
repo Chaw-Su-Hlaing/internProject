@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.dto.FilterDTO;
+import com.internship.sms.entity.Staff;
 import com.internship.sms.entity.Subject;
 import com.internship.sms.repository.SubjectRepository;
 import com.internship.sms.service.SubjectService;
@@ -19,6 +20,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
@@ -94,10 +97,10 @@ public class SubjectServiceImpl implements SubjectService {
 				predicate = builder.and(predicate,
 						builder.equal(root.get("subjectSem").get("id"), dto.getSemesterId()));
 			}
-			
+
 			query.where(predicate);
 			TypedQuery<Subject> typedQuery = entityManager.createQuery(query);
-			
+
 			List<Subject> subjects = typedQuery.getResultList();
 
 			return subjects;
@@ -105,6 +108,35 @@ public class SubjectServiceImpl implements SubjectService {
 			// TODO: handle exception
 			e.printStackTrace();
 
+		}
+		return null;
+	}
+
+	// retrieving Subject List taught by respective teacher
+	@Override
+	public List<Subject> getSubTeachedBy(FilterDTO filter) {
+		// TODO Auto-generated method stub
+		try {
+			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Subject> query = builder.createQuery(Subject.class);
+			Root<Subject> root = query.from(Subject.class);
+			query.select(root);
+			Predicate predicate = builder.equal(root.get("activeStatus"), ActiveStatus.ACTIVE);
+			if (filter.getTeacherId() != null) {
+				Join<Subject, Staff> subject_staff = root.join("subjectStaff", JoinType.INNER);
+				predicate = builder.and(predicate, builder.equal(subject_staff.get("id"), filter.getTeacherId()));
+
+			}
+//			
+			query.where(predicate);
+			TypedQuery<Subject> typedQuery = entityManager.createQuery(query);
+
+			List<Subject> subjects = typedQuery.getResultList();
+			return subjects;
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return null;
 	}

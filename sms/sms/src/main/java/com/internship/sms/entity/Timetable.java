@@ -15,7 +15,6 @@ import lombok.Setter;
 @Setter
 @Table(name = "timetable")
 public class Timetable extends AbstractEntity implements Serializable {
-
 	/**
 	 * 
 	 */
@@ -26,9 +25,9 @@ public class Timetable extends AbstractEntity implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "subject_id")
 	private Subject subject;
-
-	@Column(name = "teacher_id")
-	private String teacher_id;
+//	@ManyToOne
+//	@JoinColumn(name = "teacher_id")
+//	private Staff teacher;
 
 	@ManyToOne
 	@JoinColumn(name = "year_id")
@@ -38,6 +37,8 @@ public class Timetable extends AbstractEntity implements Serializable {
 	@JoinColumn(name = "section_id")
 	private Section section;
 
+	@Column
+	private Long semesterId;
 //	@OneToMany
 //	@JoinTable(name = "timetable_section", joinColumns = {
 //			@JoinColumn(name = "timetable_id", referencedColumnName = "id", nullable = true) }, inverseJoinColumns = {

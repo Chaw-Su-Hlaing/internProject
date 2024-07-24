@@ -125,4 +125,30 @@ public class SectionServiceImpl implements SectionService {
 		return null;
 	}
 
+	// retrieving student list according to section
+	@Override
+	public List<Student> getStudentListBySection(FilterDTO filter) {
+		// TODO Auto-generated method stub
+		try {
+			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Section> query = builder.createQuery(Section.class);
+			Root<Section> root = query.from(Section.class);
+			query.select(root);
+			Predicate predicate = builder.equal(root.get("activeStatus"), ActiveStatus.ACTIVE);
+			if (filter.getSection() != null) {
+				predicate = builder.and(predicate, builder.equal(root.get("id"), filter.getSection()));
+			}
+
+			query.where(predicate);
+			TypedQuery<Section> typeQuery = entityManager.createQuery(query);
+			Section section = typeQuery.getSingleResult();
+			List<Student> students = section.getStudents();
+			return students;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

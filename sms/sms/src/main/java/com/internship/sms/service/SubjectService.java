@@ -23,5 +23,8 @@ public interface SubjectService {
 	
 	public boolean delete(Subject subject);
 	
-	public List<Subject> getSubByBatch(FilterDTO dto);	
+	public List<Subject> getSubByBatch(FilterDTO dto);
+	
+	public List <Subject> getSubTeachedBy(FilterDTO filter);
 }
+	

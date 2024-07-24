@@ -30,6 +30,23 @@ public class SubjectController {
 	@Autowired
 	SubjectService subjectService;
 
+	@RequestMapping(value = "getsubjectByTr", method = RequestMethod.POST)
+	public Response<Subject> getsubjectByTr(@RequestBody FilterDTO filter) {
+		Response<Subject> response = new Response<Subject>();
+		try {
+			List<Subject> result = subjectService.getSubTeachedBy(filter);
+			response.setData(result);
+			response.setMessage("subject list taught by respective teacher .");
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			response.setStatus(false);
+			response.setMessage("No subject list");
+			e.printStackTrace();
+		}
+		return response;
+	}
+
 	@RequestMapping(value = "getById", method = RequestMethod.GET)
 	public Response<Subject> getById(@RequestParam Long id) {
 		Response<Subject> response = new Response<Subject>();
@@ -69,8 +86,8 @@ public class SubjectController {
 	@RequestMapping(value = "getSubByBatch", method = RequestMethod.POST)
 	public Response<Subject> getSubByBatch(@RequestBody FilterDTO dto) {
 		Response<Subject> response = new Response<Subject>();
-		try {			
-			List<Subject> result =subjectService.getSubByBatch(dto);		
+		try {
+			List<Subject> result = subjectService.getSubByBatch(dto);
 			response.setData(result);
 		} catch (Exception e) { // TODO: handle exception e.printStackTrace();
 			response.setStatus(false);

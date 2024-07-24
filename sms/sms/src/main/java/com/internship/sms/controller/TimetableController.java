@@ -1,5 +1,6 @@
 package com.internship.sms.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.internship.sms.common.ActiveStatus;
 import com.internship.sms.common.Response;
 import com.internship.sms.dto.FilterDTO;
+import com.internship.sms.entity.Section;
 import com.internship.sms.entity.Timetable;
 import com.internship.sms.service.ScheduleService;
 import com.internship.sms.service.TimetableService;
@@ -66,9 +68,15 @@ public class TimetableController {
 		Response<Timetable> response = new Response<Timetable>();
 		try {
 
+//			if (timetable.size()!=30) {
+//				response.setStatus(false);
+//				response.setMessage("Please , complete first to your timetable...");
+//			}
+
 			List<Timetable> result = timetableService.createList(timetable);
 			response.setData(result);
 			response.setMessage("Save succes");
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -79,6 +87,7 @@ public class TimetableController {
 		return response;
 	}
 
+//need to update timetable in admin_side to change lecture time
 	@RequestMapping(value = "update", method = RequestMethod.POST)
 	public Response<Timetable> update(@RequestBody Timetable timetable) {
 		Response<Timetable> response = new Response<Timetable>();
@@ -132,7 +141,7 @@ public class TimetableController {
 		Response<Timetable> response = new Response<Timetable>();
 
 		try {
-			List<Timetable> result=timetableService.getListBySection(filter);
+			List<Timetable> result = timetableService.getListBySection(filter);
 			response.setData(result);
 
 		} catch (Exception e) {
@@ -140,7 +149,36 @@ public class TimetableController {
 			e.printStackTrace();
 		}
 		return response;
-		
+
+	} 
+	//retrieving section according to subject taught by respective teacher
+	@RequestMapping(value = "getSectionByTr", method = RequestMethod.POST)
+	public Response<Section> SectionListByTr(@RequestBody FilterDTO filter) {
+		Response<Section> response = new Response<Section>();
+		List<Section> sections=new ArrayList<Section> ();
+		try {
+			List<Timetable> result = timetableService.getSectionListBySubject(filter);
+			
+			for(int i=0;i<result.size();i++) {
+				sections.add(result.get(i).getSection());
+			}
+			response.setData(sections);
+			
+//			for (int i = 0; i < result.size(); i++) {
+//				for (int j = 0; j < sections.size(); j++) {
+//					if (sections.size() == 0)
+//						sections.add(result.get(i).getSection());
+//
+//					else if (sections.get(j) != result.get(i).getSection()) {
+//						sections.add(result.get(i).getSection());
+//					}
+//				}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return response;
+
 	}
 
 }

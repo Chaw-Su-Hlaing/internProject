@@ -18,6 +18,8 @@ public class FilterDTO {
 	private String major;
 	private Long section;
 	private Long studentId;
+	private Long teacherId;
+	private Long subjectId;
 	
 
 }

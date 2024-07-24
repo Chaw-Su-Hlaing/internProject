@@ -89,14 +89,46 @@ public class TimetableServiceImpl implements TimetableService {
 				predicate = builder.and(predicate, builder.equal(root.get("section").get("id"), filter.getSection()));
 
 			}
+			if(filter.getSemesterId()!=null) {
+				predicate = builder.and(predicate, builder.equal(root.get("semesterId"), filter.getSemesterId()));
+
+			}
 			query.where(predicate);
 			TypedQuery<Timetable> typeQuery = entityManager.createQuery(query);
 			List<Timetable> timetable = typeQuery.getResultList();
-
 			return timetable;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Timetable> getSectionListBySubject(FilterDTO filter) {
+		// TODO Auto-generated method stub
+		try {
+			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Timetable> query = builder.createQuery(Timetable.class);
+			Root<Timetable> root = query.from(Timetable.class);
+			query.select(root);
+			Predicate predicate = builder.equal(root.get("activeStatus"), ActiveStatus.ACTIVE);
+
+			if(filter.getSubjectId()!=null) {
+				predicate = builder.and(predicate, builder.equal(root.get("subject").get("id"), filter.getSubjectId()));
+
+			}
+			if(filter.getTeacherId()!=null) {
+				predicate = builder.and(predicate, builder.equal(root.get("subject").get("subjectStaff").get("id"), filter.getTeacherId()));
+			}
+			query.where(predicate).distinct(true);
+			TypedQuery<Timetable> typeQuery = entityManager.createQuery(query);
+			List<Timetable> timetable = typeQuery.getResultList();	
+			return timetable;
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 		return null;
 	}

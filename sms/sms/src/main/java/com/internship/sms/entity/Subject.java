@@ -42,7 +42,7 @@ public class Subject extends AbstractEntity implements Serializable {
 	@Column(name="major")
 	private String major;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "batch_id")
 	private AcademicBatch subjectBatch;
 	
