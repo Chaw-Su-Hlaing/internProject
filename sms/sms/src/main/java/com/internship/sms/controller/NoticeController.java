@@ -32,7 +32,7 @@ public class NoticeController {
 	@Value("${notice.file.path.relativePath}")
 	private String noticeRelativePath;
 
-	@Value("${notice.file.path.defaultPath")
+	@Value("${notice.file.path.defaultPath}")
 	private String defaultPhoto;
 
 	@Autowired
@@ -94,9 +94,12 @@ public class NoticeController {
 		Response<Notice> response = new Response<Notice>();
 		try {
 			notice.setNotice_status(true);
+			if (notice.getNoticePicture() == null || notice.getNoticePicture().isEmpty()) {
+				notice.setNoticePicture(defaultPhoto);
+			}
 			Notice result = noticeService.create(notice);
 			response.setData(result);
-			response.setMessage("Save succes");
+			response.setMessage("Save success");
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
