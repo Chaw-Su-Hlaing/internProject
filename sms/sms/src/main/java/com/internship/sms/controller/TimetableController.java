@@ -87,19 +87,21 @@ public class TimetableController {
 		return response;
 	}
 
-//need to update timetable in admin_side to change lecture time
+	// need to update timetable in admin_side to change lecture time
 	@RequestMapping(value = "update", method = RequestMethod.POST)
-	public Response<Timetable> update(@RequestBody Timetable timetable) {
+	public Response<Timetable> update(@RequestBody List<Timetable> timetable) {
 		Response<Timetable> response = new Response<Timetable>();
 		try {
-			Timetable existingData = timetableService.getById(timetable.getId());
+			for(int i=0;i<timetable.size();i++) {
+			Timetable existingData = timetableService.getById(timetable.get(i).getId());
 			if (existingData != null) {
 				Timetable oldData = existingData;
 				oldData.setModifyDate(new Date());
-				response.setData(timetableService.create(timetable));
+				response.setData(timetableService.create(timetable.get(i)));
 				response.setMessage("Update succes");
 			} else {
 				response.setMessage("No existing data");
+			}
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -150,20 +152,21 @@ public class TimetableController {
 		}
 		return response;
 
-	} 
-	//retrieving section according to subject taught by respective teacher
+	}
+
+	// retrieving section according to subject taught by respective teacher
 	@RequestMapping(value = "getSectionByTr", method = RequestMethod.POST)
 	public Response<Section> SectionListByTr(@RequestBody FilterDTO filter) {
 		Response<Section> response = new Response<Section>();
-		List<Section> sections=new ArrayList<Section> ();
+		List<Section> sections = new ArrayList<Section>();
 		try {
 			List<Timetable> result = timetableService.getSectionListBySubject(filter);
-			
-			for(int i=0;i<result.size();i++) {
+
+			for (int i = 0; i < result.size(); i++) {
 				sections.add(result.get(i).getSection());
 			}
 			response.setData(sections);
-			
+
 //			for (int i = 0; i < result.size(); i++) {
 //				for (int j = 0; j < sections.size(); j++) {
 //					if (sections.size() == 0)

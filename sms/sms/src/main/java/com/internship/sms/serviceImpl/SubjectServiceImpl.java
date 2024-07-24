@@ -77,6 +77,7 @@ public class SubjectServiceImpl implements SubjectService {
 		}
 	}
 
+	//retrieving subject list according to student batch and major and semester optional
 	@Override
 	public List<Subject> getSubByBatch(FilterDTO dto) {
 		// TODO Auto-generated method stub return
@@ -85,14 +86,17 @@ public class SubjectServiceImpl implements SubjectService {
 			CriteriaQuery<Subject> query = builder.createQuery(Subject.class);
 			Root<Subject> root = query.from(Subject.class);
 			query.select(root);
-
 			Predicate predicate = builder.equal(root.get("activeStatus"), ActiveStatus.ACTIVE);
 			if (dto.getBatchId() != null) {
 				predicate = builder.and(predicate, builder.equal(root.get("subjectBatch").get("id"), dto.getBatchId()));
 			}
 			if (dto.getMajor() != null && !dto.getMajor().isEmpty()) {
-				predicate = builder.and(predicate, builder.equal(root.get("major"), dto.getMajor()));
+				predicate = builder.and(predicate, builder.or(
+					    builder.equal(root.get("major"), dto.getMajor()),
+					    builder.equal(root.get("major"), "CST")));
+//				predicate=builder.and(predicate,builder.equal(root.get("major"),"CST"));
 			}
+			
 			if (dto.getSemesterId() != null) {
 				predicate = builder.and(predicate,
 						builder.equal(root.get("subjectSem").get("id"), dto.getSemesterId()));
